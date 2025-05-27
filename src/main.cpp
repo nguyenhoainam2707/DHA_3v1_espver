@@ -22,7 +22,7 @@ void setup()
   // ---------------------------------------------------------------------------------------------------//
   // || Creation  ||  Task function ||  PC name ||  Heap size ||  Parameter ||  Priority  ||  Task handle ||  CoreID  ||
   // xTaskCreatePinnedToCore(atApp_ABC_Task_Func, "atApp_ABC_Application", 2048, NULL, 1, &Task_atApp_ABC, 1);
-  // xTaskCreatePinnedToCore(atApp_MQTT_Task_Func, "atApp_MQTT_Application", 2048, NULL, 1, &Task_atApp_MQTT, 1);
+  xTaskCreatePinnedToCore(atApp_MQTT_Task_Func, "atApp_MQTT_Application", 2048, NULL, 1, &Task_atApp_MQTT, 1);
   xTaskCreatePinnedToCore(atApp_ADC_Task_Func, "atApp_ADC_Application", 2048, NULL, 1, &Task_atApp_ADC, 1);
   //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 

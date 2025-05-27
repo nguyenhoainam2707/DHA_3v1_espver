@@ -77,7 +77,7 @@ void Service_ADS1115::Service_ADS1115_End() {}
 bool Service_ADS1115::ADS1115_Init(adsGain_t gain, uint16_t rate)
 {
     Wire.begin(SDA_PIN, SCL_PIN);
-    ads.begin(); // Initialize the ADS1115
+    ads.begin(); // Lưu ý hàm này nếu không tìm được thiết bị giao tiếp I2C sẽ bị treo khoảng 2 giây.
     if (!ads.begin())
         return false; // Check if the ADS1115 is connected
     ads.setGain(gain);

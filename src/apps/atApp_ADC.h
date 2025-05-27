@@ -37,6 +37,8 @@ public:
 	App_ADC();
 	~App_ADC();
 
+	static bool ads1115InitOke; // this variable will be set to true when the ADS1115 is initialized successfully
+
 protected:
 private:
 	static void App_ADC_Pend();
@@ -47,6 +49,8 @@ private:
 	static void App_ADC_Resume();
 	static void App_ADC_End();
 } atApp_ADC;
+
+bool App_ADC::ads1115InitOke = false; // Initialize the ADS1115 status to false
 /**
  * This function will be automaticaly called when a object is created by this class
  */
@@ -84,27 +88,20 @@ void App_ADC::App_ADC_Pend()
  */
 void App_ADC::App_ADC_Start()
 {
-	// atService_ADS1115.Run_Service();
-	// atObject_ADC.Run_Object();
 	/*
-	Gain:
-		GAIN_TWOTHIRDS: -6.144V to +6.144V
-		GAIN_ONE: -4.096V to +4.096V
-		GAIN_TWO: -2.048V to +2.048V
-		GAIN_FOUR: -1.024V to +1.024V
-		GAIN_EIGHT: -0.512V to +0.512V
-		GAIN_SIXTEEN: -0.256V to +0.256V
-	Data rate:
-		RATE_ADS1115_8SPS: 8 samples per second
-		RATE_ADS1115_16SPS: 16 samples per second
-		RATE_ADS1115_32SPS: 32 samples per second
-		RATE_ADS1115_64SPS: 64 samples per second
-		RATE_ADS1115_128SPS: 128 samples per second
-		RATE_ADS1115_250SPS: 250 samples per second
-		RATE_ADS1115_475SPS: 475 samples per second
-		RATE_ADS1115_860SPS: 860 samples per second
+	|      Gain       |        Voltage Range       |        	  Data rate                 |
+	|-----------------|----------------------------|----------------------------------------|
+	| GAIN_TWOTHIRDS  | -6.144V to +6.144V         | RATE_ADS1115_8SPS   :  8 samples/sec   |
+	| GAIN_ONE        | -4.096V to +4.096V         | RATE_ADS1115_16SPS  : 16 samples/sec   |
+	| GAIN_TWO        | -2.048V to +2.048V         | RATE_ADS1115_32SPS  : 32 samples/sec   |
+	| GAIN_FOUR       | -1.024V to +1.024V         | RATE_ADS1115_64SPS  : 64 samples/sec   |
+	| GAIN_EIGHT      | -0.512V to +0.512V         | RATE_ADS1115_128SPS : 128 samples/sec  |
+	| GAIN_SIXTEEN    | -0.256V to +0.256V         | RATE_ADS1115_250SPS : 250 samples/sec  |
+	|                 |                            | RATE_ADS1115_475SPS : 475 samples/sec  |
+	|                 |                            | RATE_ADS1115_860SPS : 860 samples/sec  |
 	*/
-	if (Service_ADS1115::ADS1115_Init(GAIN_TWOTHIRDS, RATE_ADS1115_8SPS))
+	ads1115InitOke = Service_ADS1115::ADS1115_Init(GAIN_TWOTHIRDS, RATE_ADS1115_8SPS);
+	if (ads1115InitOke)
 	{
 		if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
 		{
@@ -130,7 +127,22 @@ void App_ADC::App_ADC_Restart()
  */
 void App_ADC::App_ADC_Execute()
 {
-	Object_ADC::adcRawValue = atService_ADS1115.ADS1115_readADC(0); //Channel 0->3
+	if (!ads1115InitOke)
+	{
+		ads1115InitOke = Service_ADS1115::ADS1115_Init(GAIN_TWOTHIRDS, RATE_ADS1115_8SPS);
+		if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
+		{
+			Serial.println("Retry ADS1115 init...");
+		}
+		if (!ads1115InitOke)
+			return; // Nếu vẫn lỗi thì dừng hàm, không đọc ADC
+		else if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
+		{
+			Serial.println("ADS1115 reinitialize success!");
+		}
+	}
+
+	Object_ADC::adcRawValue = atService_ADS1115.ADS1115_readADC(0); // Channel 0->3
 	Object_ADC::voltage = atService_ADS1115.ADS1115_readADC_Voltage(0);
 
 	if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
