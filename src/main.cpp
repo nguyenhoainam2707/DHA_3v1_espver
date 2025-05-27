@@ -3,6 +3,7 @@
 #include "../src/apps/atApp_ABC.h"
 #include "../src/apps/atApp_MQTT.h"
 #include "../src/apps/atApp_ADC.h"
+#include "../src/apps/atApp_LED.h"
 
 void setup()
 {
@@ -24,6 +25,7 @@ void setup()
   // xTaskCreatePinnedToCore(atApp_ABC_Task_Func, "atApp_ABC_Application", 2048, NULL, 1, &Task_atApp_ABC, 1);
   xTaskCreatePinnedToCore(atApp_MQTT_Task_Func, "atApp_MQTT_Application", 2048, NULL, 1, &Task_atApp_MQTT, 1);
   xTaskCreatePinnedToCore(atApp_ADC_Task_Func, "atApp_ADC_Application", 2048, NULL, 1, &Task_atApp_ADC, 1);
+  xTaskCreatePinnedToCore(atApp_LED_Task_Func, "atApp_LED_Application", 2048, NULL, 1, &Task_atApp_LED, 1);
   //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
   // Some tasks will be suspended after initiating

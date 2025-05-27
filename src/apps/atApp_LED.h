@@ -37,6 +37,9 @@ class App_LED : public Application
 public:
   	App_LED();
  	~App_LED();
+
+	static void blinkLED(uint8_t ledPin, uint16_t duration = 500);
+
 protected:
 private:
   	static void  App_LED_Pend();
@@ -87,6 +90,12 @@ void  App_LED::App_LED_Start()
 {
 	// init atLED Service in the fist running time
 	// atService_LED.Run_Service();
+	pinMode(MQTT_STATE_LED_PIN, OUTPUT); // Set pin for LED state
+	pinMode(PUBLISH_LED_PIN, OUTPUT); // Set pin for publish LED state
+	pinMode(SUBSCRIBE_LED_PIN, OUTPUT); // Set pin for subscribe LED state
+	digitalWrite(MQTT_STATE_LED_PIN, LOW); // Turn off LED state pin
+	digitalWrite(PUBLISH_LED_PIN, LOW); // Turn off publish LED pin
+	digitalWrite(SUBSCRIBE_LED_PIN, LOW); // Turn off subscribe LED pin
 }  
 /**
  * Restart function of SNM  app
@@ -109,6 +118,13 @@ void  App_LED::App_LED_Execute()
 void  App_LED::App_LED_Suspend(){}
 void  App_LED::App_LED_Resume(){}	  
 void  App_LED::App_LED_End(){}
+void App_LED::blinkLED(uint8_t ledPin, uint16_t duration)
+{
+	digitalWrite(ledPin, HIGH); // Turn on the LED
+	vTaskDelay(duration / portTICK_PERIOD_MS); // Wait for the specified duration
+	digitalWrite(ledPin, LOW); // Turn off the LED
+	vTaskDelay(duration / portTICK_PERIOD_MS); // Wait for the specified duration
+}
 void atApp_LED_Task_Func(void *parameter)
 {
   while (1)

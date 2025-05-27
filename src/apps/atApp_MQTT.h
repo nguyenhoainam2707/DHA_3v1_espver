@@ -19,14 +19,7 @@
 #include "../services/atService_EG800K.h"
 #include "../src/obj/atObj_ADC.h"
 /* _____DEFINITIONS__________________________________________________________ */
-enum APP_MQTT_State : uint8_t
-{
-	MQTT_STATE_INIT,
-	MQTT_STATE_NORMAL,
-	MQTT_STATE_PUBLISHING,
-	MQTT_STATE_SUBSCRIBING,
-	MQTT_STATE_ERROR
-};
+
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 TaskHandle_t Task_atApp_MQTT;
 void atApp_MQTT_Task_Func(void *parameter);

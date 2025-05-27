@@ -27,10 +27,16 @@
 
 enum SER_EG800K_State : uint8_t
 {
+    EG800K_STATE_INIT,
     EG800K_STATE_NORMAL,
     EG800K_STATE_ERROR
 };
-
+enum SER_MQTT_State : uint8_t
+{
+    MQTT_STATE_NORMAL,
+    MQTT_STATE_PUBLISHING,
+    MQTT_STATE_SUBSCRIBING,
+};
 HardwareSerial EGSerial(2); // UART2 cho EG800K
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
@@ -52,7 +58,8 @@ public:
     static void subscribeMQTTTopic(const String &topic);
     static void handleMQTTMessage();
 
-    SER_EG800K_State EG800K_State = EG800K_STATE_NORMAL;
+    SER_EG800K_State EG800K_State = EG800K_STATE_INIT; // Trạng thái của EG800K
+    SER_MQTT_State MQTT_State = MQTT_STATE_NORMAL;     // Trạng thái của MQTT
 
 protected:
 private:
@@ -114,6 +121,8 @@ void Service_EG800K::sendAT(const String &cmd, uint16_t timeout)
  */
 void Service_EG800K::configEG800K()
 {
+    atService_EG800K.EG800K_State = EG800K_STATE_INIT;
+    atService_EG800K.MQTT_State = MQTT_STATE_NORMAL;
     EGSerial.begin(EG800K_BAUD, SERIAL_8N1, EG800K_RX, EG800K_TX);
     vTaskDelay(3000 / portTICK_PERIOD_MS);
 
@@ -130,10 +139,14 @@ void Service_EG800K::configEG800K()
     sendAT("AT+QICSGP=1,1,\"internet\",\"\",\"\",1", DEFAULT_TIMEOUT); // APN, sửa "internet" nếu cần
     sendAT("AT+QIACT=1", DEFAULT_TIMEOUT);                             // Kích hoạt PDP
     sendAT("AT+QIACT?", DEFAULT_TIMEOUT);                              // Kiểm tra IP
+    atService_EG800K.EG800K_State = EG800K_STATE_NORMAL;               // Đặt trạng thái EG800K là bình thường sau khi cấu hình
 }
 void Service_EG800K::configMQTT()
 {
     // MQTT init
+    atService_EG800K.EG800K_State = EG800K_STATE_INIT;
+    atService_EG800K.MQTT_State = MQTT_STATE_NORMAL;
+
     if (atService_EG800K.User_Mode == SER_USER_MODE_DEBUG)
     {
         Serial.println("Configuring MQTT...");
@@ -142,23 +155,28 @@ void Service_EG800K::configMQTT()
     vTaskDelay(3000 / portTICK_PERIOD_MS);
     sendAT("AT+QMTCONN=0,\"" + String(MQTT_CLIENT_ID) + "\"", DEFAULT_TIMEOUT);
     vTaskDelay(3000 / portTICK_PERIOD_MS);
+    atService_EG800K.EG800K_State = EG800K_STATE_NORMAL; // Đặt trạng thái EG800K là bình thường sau khi cấu hình MQTT
 }
 /**
  * This function will send data to MQTT broker
  */
 void Service_EG800K::publishMQTTData(String payload)
 {
+    atService_EG800K.MQTT_State = MQTT_STATE_PUBLISHING;
     String cmd = "AT+QMTPUB=0,0,0,0,\"" + String(MQTT_TOPIC) + "\"";
     sendAT(cmd, DEFAULT_TIMEOUT);
     EGSerial.print(payload);
     EGSerial.write(0x1A); // Gửi ký tự kết thúc (Ctrl+Z)
     vTaskDelay(1000 / portTICK_PERIOD_MS);
-}z
+    atService_EG800K.MQTT_State = MQTT_STATE_NORMAL; // Đặt trạng thái MQTT là bình thường sau khi gửi dữ liệu
+}
 void Service_EG800K::subscribeMQTTTopic(const String &topic)
 {
+    atService_EG800K.MQTT_State = MQTT_STATE_SUBSCRIBING;
     // Đăng ký (subscribe) topic
     String cmd = "AT+QMTSUB=0,1,\"" + topic + "\",2"; // 0: client_idx, 1: msg_id, QoS=2
     sendAT(cmd, 1500);
+    atService_EG800K.MQTT_State = MQTT_STATE_NORMAL;
 }
 
 // Hàm này nên được gọi thường xuyên trong vòng lặp/task để kiểm tra dữ liệu đến
@@ -172,6 +190,7 @@ void Service_EG800K::handleMQTTMessage()
         char c = EGSerial.read();
         if (!receiving)
         {
+            atService_EG800K.MQTT_State = MQTT_STATE_SUBSCRIBING; // Đặt trạng thái MQTT là đang nhận dữ liệu
             // Tìm bắt đầu chuỗi +QMTRECV:
             if (c == '+')
             {
@@ -201,6 +220,7 @@ void Service_EG800K::handleMQTTMessage()
                     // Reset để nhận bản tin tiếp theo
                     receiving = false;
                     recvLine = "";
+                    atService_EG800K.MQTT_State = MQTT_STATE_NORMAL; // Đặt lại trạng thái MQTT sau khi nhận dữ liệu
                 }
             }
         }
