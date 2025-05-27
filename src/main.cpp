@@ -13,10 +13,10 @@ void setup()
   // Uncomment to put the app in debug mode
   // atApp_ABC.Debug();
   // atApp_MQTT.Debug();
-  atApp_ADC.Debug();
+  // atApp_ADC.Debug();
   // Uncomment to put the service in debug mode
-  // atService_EG800K.Debug();
-  atService_ADS1115.Debug();
+  atService_EG800K.Debug();
+  // atService_ADS1115.Debug();
 
   // --------------------------------------------Tasks table--------------------------------------------//
   // ---------------------------------------------------------------------------------------------------//

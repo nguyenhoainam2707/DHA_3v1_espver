@@ -18,7 +18,7 @@
 #define EG800K_RX 18
 #define EG800K_TX 17
 #define EG800K_BAUD 115200
-#define DEFAULT_TIMEOUT 1000
+#define DEFAULT_TIMEOUT 3000
 
 #define MQTT_BROKER "broker.emqx.io"
 #define MQTT_PORT "1883"
@@ -149,11 +149,11 @@ void Service_EG800K::configMQTT()
 void Service_EG800K::publishMQTTData(String payload)
 {
     String cmd = "AT+QMTPUB=0,0,0,0,\"" + String(MQTT_TOPIC) + "\"";
-    sendAT(cmd, 1500);
+    sendAT(cmd, DEFAULT_TIMEOUT);
     EGSerial.print(payload);
     EGSerial.write(0x1A); // Gửi ký tự kết thúc (Ctrl+Z)
     vTaskDelay(1000 / portTICK_PERIOD_MS);
-}
+}z
 void Service_EG800K::subscribeMQTTTopic(const String &topic)
 {
     // Đăng ký (subscribe) topic
@@ -191,14 +191,17 @@ void Service_EG800K::handleMQTTMessage()
                     uint8_t secondQuote = recvLine.indexOf('"', firstQuote + 1);
                     String topic = recvLine.substring(firstQuote + 1, secondQuote);
                     String payload = recvLine.substring(openingBrace);
-                    Serial.print("[MQTT] Topic: ");
-                    Serial.println(topic);
-                    Serial.println("[MQTT] Payload: ");
-                    Serial.println(payload);
+                    if (atService_EG800K.User_Mode == SER_USER_MODE_DEBUG)
+                    {
+                        Serial.print("[MQTT] Topic: ");
+                        Serial.println(topic);
+                        Serial.println("[MQTT] Payload: ");
+                        Serial.println(payload);
+                    }
+                    // Reset để nhận bản tin tiếp theo
+                    receiving = false;
+                    recvLine = "";
                 }
-                // Reset để nhận bản tin tiếp theo
-                receiving = false;
-                recvLine = "";
             }
         }
     }

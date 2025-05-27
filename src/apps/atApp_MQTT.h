@@ -95,7 +95,7 @@ void App_MQTT::App_MQTT_Start()
 	atService_EG800K.Run_Service();
 	Service_EG800K::configEG800K();
 	Service_EG800K::configMQTT();
-	// Service_EG800K::subscribeMQTTTopic("esp32s3/content");
+	Service_EG800K::subscribeMQTTTopic("esp32s3/content");
 }
 /**
  * Restart function of SNM  app
@@ -115,7 +115,7 @@ void App_MQTT::App_MQTT_Execute()
 	// if (atApp_MQTT.User_Mode == APP_USER_MODE_DEBUG)
 	// {
 	// }
-	// Service_EG800K::handleMQTTMessage();
+	Service_EG800K::handleMQTTMessage();
 }
 void App_MQTT::App_MQTT_Suspend() {}
 void App_MQTT::App_MQTT_Resume() {}
@@ -125,7 +125,7 @@ void atApp_MQTT_Task_Func(void *parameter)
 	while (1)
 	{
 		atApp_MQTT.Run_Application(APP_RUN_MODE_AUTO);
-		vTaskDelay(500 / portTICK_PERIOD_MS);
+		vTaskDelay(300 / portTICK_PERIOD_MS);
 	}
 }
 #endif
