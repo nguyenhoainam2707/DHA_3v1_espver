@@ -11,3 +11,4 @@
 - Fix lại những gì chạy cài đặt ở trên apps, còn service chỉ như bộ thư viện.
 
 Đang thêm các biến trạng thái để hiển thị ra LEDs các trạng thái của EG800K và trạng thái giao tiếp MQTT.
+Cần lập sơ đồ cấu trúc app trước.
