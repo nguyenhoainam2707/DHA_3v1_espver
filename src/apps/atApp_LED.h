@@ -122,7 +122,7 @@ void App_LED::App_LED_Execute()
 		break;
 	case EG800K_STATE_ERROR:
 		// Blink the LED to indicate an error
-		blinkLED(EG800K_STATE_LED_PIN, 1000); // Blink for 1 second
+		toggleLED(EG800K_STATE_LED_PIN, egStateLED); // Blink for 1 second
 		break;
 	default:
 		break;

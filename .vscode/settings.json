@@ -62,5 +62,6 @@
         "VRMS",
         "WDIV"
     ],
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "idf.portWin": "COM28"
 }

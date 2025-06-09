@@ -18,7 +18,7 @@
 #define EG800K_RX 18
 #define EG800K_TX 17
 #define EG800K_BAUD 115200
-#define DEFAULT_TIMEOUT 3000
+#define DEFAULT_TIMEOUT 1500
 
 #define MQTT_BROKER "broker.emqx.io"
 #define MQTT_PORT "1883"
@@ -57,16 +57,27 @@ public:
     static void publishMQTTData(String payload);
     static void subscribeMQTTTopic(const String &topic);
     static void handleMQTTMessage();
+    static void configFTP();
+    static void sendFTPfile(const String &filename, const String &content);
 
     SER_EG800K_State EG800K_State = EG800K_STATE_INIT; // Trạng thái của EG800K
     SER_MQTT_State MQTT_State = MQTT_STATE_NORMAL;     // Trạng thái của MQTT
-
+    static bool EG800K_configuring;                    // Biến để kiểm tra xem EG800K đang được cấu hình hay không
+    static bool EG800K_configured;                     // Biến để kiểm tra xem EG800K đã được cấu hình hay chưa
+    static bool MQTT_configuring;                      // Biến để kiểm tra xem MQTT đang được cấu hình hay không
+    static bool MQTT_configured;                       // Biến để kiểm tra xem MQTT đã được cấu hình hay chưa
 protected:
 private:
     static void Service_EG800K_Start();
     static void Service_EG800K_Execute();
     static void Service_EG800K_End();
 } atService_EG800K;
+
+// Gán giá trị ban đầu cho biến EG800K_configured
+bool Service_EG800K::EG800K_configuring = false; // Biến để kiểm tra xem EG800K đang được cấu hình hay không
+bool Service_EG800K::EG800K_configured = false;  // Biến để kiểm tra xem EG800K đã được cấu hình hay chưa
+bool Service_EG800K::MQTT_configuring = false;   // Biến để kiểm tra xem MQTT đang được cấu hình hay không
+bool Service_EG800K::MQTT_configured = false;    // Biến để kiểm tra xem MQTT đã được cấu hình hay chưa
 /**
  * This function will be automaticaly called when a object is created by this class
  */
@@ -121,6 +132,7 @@ void Service_EG800K::sendAT(const String &cmd, uint16_t timeout)
  */
 void Service_EG800K::configEG800K()
 {
+    EG800K_configuring = true; // Đặt biến EG800K_configuring là true để đánh dấu EG800K đang được cấu hình
     atService_EG800K.EG800K_State = EG800K_STATE_INIT;
     atService_EG800K.MQTT_State = MQTT_STATE_NORMAL;
     EGSerial.begin(EG800K_BAUD, SERIAL_8N1, EG800K_RX, EG800K_TX);
@@ -140,10 +152,13 @@ void Service_EG800K::configEG800K()
     sendAT("AT+QIACT=1", DEFAULT_TIMEOUT);                             // Kích hoạt PDP
     sendAT("AT+QIACT?", DEFAULT_TIMEOUT);                              // Kiểm tra IP
     atService_EG800K.EG800K_State = EG800K_STATE_NORMAL;               // Đặt trạng thái EG800K là bình thường sau khi cấu hình
+    EG800K_configuring = false;                                        // Đặt biến EG800K_configuring là false để đánh dấu EG800K đã được cấu hình
+    EG800K_configured = true;                                          // Đặt biến EG800K_configured là true để đánh dấu EG800K đã được cấu hình
 }
 void Service_EG800K::configMQTT()
 {
     // MQTT init
+    MQTT_configuring = true; // Đặt biến MQTT_configuring là true để đánh dấu MQTT đang được cấu hình
     atService_EG800K.EG800K_State = EG800K_STATE_INIT;
     atService_EG800K.MQTT_State = MQTT_STATE_NORMAL;
 
@@ -151,11 +166,14 @@ void Service_EG800K::configMQTT()
     {
         Serial.println("Configuring MQTT...");
     }
+
     sendAT("AT+QMTOPEN=0,\"" + String(MQTT_BROKER) + "\"," + String(MQTT_PORT), DEFAULT_TIMEOUT);
     vTaskDelay(3000 / portTICK_PERIOD_MS);
     sendAT("AT+QMTCONN=0,\"" + String(MQTT_CLIENT_ID) + "\"", DEFAULT_TIMEOUT);
     vTaskDelay(3000 / portTICK_PERIOD_MS);
     atService_EG800K.EG800K_State = EG800K_STATE_NORMAL; // Đặt trạng thái EG800K là bình thường sau khi cấu hình MQTT
+    MQTT_configuring = false;                             // Đặt biến MQTT_configuring là false để đánh dấu MQTT đã được cấu hình
+    MQTT_configured = true;                              // Đặt biến MQTT_configured là true để đánh dấu MQTT đã được cấu hình
 }
 /**
  * This function will send data to MQTT broker
@@ -178,7 +196,6 @@ void Service_EG800K::subscribeMQTTTopic(const String &topic)
     sendAT(cmd, 1500);
     atService_EG800K.MQTT_State = MQTT_STATE_NORMAL;
 }
-
 // Hàm này nên được gọi thường xuyên trong vòng lặp/task để kiểm tra dữ liệu đến
 void Service_EG800K::handleMQTTMessage()
 {
@@ -226,6 +243,64 @@ void Service_EG800K::handleMQTTMessage()
         }
     }
 }
+
+void Service_EG800K::configFTP()
+{
+    atService_EG800K.EG800K_State = EG800K_STATE_INIT;
+    if (atService_EG800K.User_Mode == SER_USER_MODE_DEBUG)
+    {
+        Serial.println("Configuring FTP...");
+    }
+    // Thiết lập cấu hình FTP server
+    sendAT("AT+QFTPCFG=\"contextid\",1", DEFAULT_TIMEOUT);   // Sử dụng PDP context 1
+    
+    // Thiết lập thông tin server FTP
+    // sendAT("AT+QFTPOPEN=\"103.149.86.230\",21,\"demo\",\"password\"", 10000); // Thay ftp_user/ftp_pass nếu cần
+    // set user and password
+    sendAT("AT+QFTPCFG=\"account\",\"ftpuser\",\"ftppassword\"", DEFAULT_TIMEOUT); // Thay đổi theo server FTP của bạn
+    sendAT("AT+QFTPCFG=\"filetype\",0", DEFAULT_TIMEOUT);    // Chế độ ASCII (0) hoặc Binary (1)
+    sendAT("AT+QFTPCFG=\"transmode\",0", DEFAULT_TIMEOUT);   // Chế độ truyền thường
+    sendAT("AT+QFTPCFG=\"rsptimeout\",90", DEFAULT_TIMEOUT); // Timeout 90s
+    // login
+    sendAT("AT+QFTPOPEN=\"103.149.86.230\",21", 10000); // Thay ftp_user/ftp_pass nếu cần
+    // Mở kết nối FTP
+    sendAT("AT+QFTPOPEN=0", DEFAULT_TIMEOUT); // Mở kết nối FTP với context ID 0
+    // set working directorury
+    sendAT("AT+QFTPCWD=\"/\"", DEFAULT_TIMEOUT); 
+    // read the current woring directory
+    sendAT("AT+QFTPCWD=?", DEFAULT_TIMEOUT); // Kiểm tra thư mục làm việc hiện tại
+    // query the current working directory
+    sendAT("AT+QFTPPWD", 10000); // Kiểm tra thư mục làm việc hiện tại
+    // create a Folder with name "DHA_TEST_FTP"
+    sendAT("AT+QFTPMKDIR=\"DHA_TEST_FTP\"", 10000); // Tạo thư mục mới
+    // rename the folder "DHA_TEST_FTP" to "DHA_TEST_FTP_RENAMED"
+    sendAT("AT+QFTPRENAME=\"DHA_TEST_FTP\",\"DHA_TEST_FTP_RENAME\"", DEFAULT_TIMEOUT);
+
+    vTaskDelay(3000 / portTICK_PERIOD_MS);
+
+    if (atService_EG800K.User_Mode == SER_USER_MODE_DEBUG)
+    {
+        Serial.println("FTP configured.");
+    }
+    atService_EG800K.EG800K_State = EG800K_STATE_NORMAL;
+}
+
+void Service_EG800K::sendFTPfile(const String &filename, const String &content)
+{
+    // Gửi tệp tin qua FTP
+    if (atService_EG800K.User_Mode == SER_USER_MODE_DEBUG)
+    {
+        Serial.print("[FTP] Sending file: ");
+        Serial.println(filename);
+    }
+    String cmd = "AT+QFTPSEND=0,\"" + filename + "\",\"" + content + "\"";
+    sendAT(cmd, DEFAULT_TIMEOUT);
+    if (atService_EG800K.User_Mode == SER_USER_MODE_DEBUG)
+    {
+        Serial.println("[FTP] File sent successfully.");
+    }
+}
+
 /**
  * This start function will init some critical function
  */
