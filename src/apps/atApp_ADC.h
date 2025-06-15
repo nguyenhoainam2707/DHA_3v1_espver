@@ -17,7 +17,7 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "../services/atService_ADS1115.h"
-#include "../src/obj/atObj_ADC.h"
+#include "../src/obj/atObj_Value.h"
 /* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
@@ -142,12 +142,12 @@ void App_ADC::App_ADC_Execute()
 		}
 	}
 
-	Object_ADC::adcRawValue = atService_ADS1115.ADS1115_readADC(0); // Channel 0->3
-	Object_ADC::voltage = atService_ADS1115.ADS1115_readADC_Voltage(0);
+	Object_Value::adcRawValue = atService_ADS1115.ADS1115_readADC(0); // Channel 0->3
+	Object_Value::voltage = atService_ADS1115.ADS1115_readADC_Voltage(0);
 
 	if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
 	{
-		Serial.println("ADC Raw Value: " + String(Object_ADC::adcRawValue) + "\t-->\tVoltage: " + String(Object_ADC::voltage, 4) + " V");
+		Serial.println("ADC Raw Value: " + String(Object_Value::adcRawValue) + "\t-->\tVoltage: " + String(Object_Value::voltage, 4) + " V");
 	}
 }
 void App_ADC::App_ADC_Suspend() {}

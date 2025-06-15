@@ -17,7 +17,7 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "../services/atService_EG800K.h"
-#include "../src/obj/atObj_ADC.h"
+#include "../src/obj/atObj_Value.h"
 /* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */

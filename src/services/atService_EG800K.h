@@ -15,8 +15,8 @@
 #include "Service.h"
 #include "../src/obj/atObj_ADC.h"
 /* _____DEFINETIONS__________________________________________________________ */
-#define EG800K_RX 18
-#define EG800K_TX 17
+#define EG800K_RX 44 //UART0
+#define EG800K_TX 43 //UART0
 #define EG800K_BAUD 115200
 #define DEFAULT_TIMEOUT 1500
 
@@ -37,7 +37,7 @@ enum SER_MQTT_State : uint8_t
     MQTT_STATE_PUBLISHING,
     MQTT_STATE_SUBSCRIBING,
 };
-HardwareSerial EGSerial(2); // UART2 cho EG800K
+HardwareSerial EGSerial(0); // UART0 cho EG800K
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____GLOBAL FUNCTION______________________________________________________ */

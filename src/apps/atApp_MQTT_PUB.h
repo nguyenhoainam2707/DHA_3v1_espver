@@ -17,7 +17,7 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "../services/atService_EG800K.h"
-#include "../src/obj/atObj_ADC.h"
+#include "../src/obj/atObj_Value.h"
 /* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
@@ -119,8 +119,8 @@ void App_MQTT_PUB::App_MQTT_PUB_Restart()
 void App_MQTT_PUB::App_MQTT_PUB_Execute()
 {
 	String payload = "{";
-	payload += "\"ADC_0 Raw Value\":" + String(Object_ADC::adcRawValue) + ",";
-	payload += "\"ADC_0 Voltage\":" + String(Object_ADC::voltage, 4) + "}";
+	payload += "\"ADC_0 Raw Value\":" + String(Object_Value::adcRawValue) + ",";
+	payload += "\"ADC_0 Voltage\":" + String(Object_Value::voltage, 4) + "}";
 	Service_EG800K::publishMQTTData(payload);
 }
 void App_MQTT_PUB::App_MQTT_PUB_Suspend() {}

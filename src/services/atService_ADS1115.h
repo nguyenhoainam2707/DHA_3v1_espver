@@ -15,8 +15,8 @@
 #include "Service.h"
 #include <Adafruit_ADS1X15.h>
 /* _____DEFINETIONS__________________________________________________________ */
-#define SDA_PIN 10
-#define SCL_PIN 9
+#define SDA_PIN 39
+#define SCL_PIN 38
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____GLOBAL FUNCTION______________________________________________________ */

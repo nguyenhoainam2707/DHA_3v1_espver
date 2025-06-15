@@ -1,15 +1,5 @@
-/**
-@file
-Objective for control with Esp32 Wrover.
-*/
-/*
-  Object_Contactor.h - Arduino library for control with ESP32
-  Library:: Object_Contactor
-  This version is
-  Copyright:: 2021 nguyentrinhtuan1996@gmail.com
-*/
-#ifndef Object_Contactor_h
-#define Object_Contactor_h
+#ifndef Object_State_h
+#define Object_State_h
 
 
 /* _____PROJECT INCLUDES____________________________________________________ */
@@ -34,52 +24,52 @@ enum Example
  * This class is the application to manage the 
  */
 
-class Object_Contactor :public Object
+class Object_State :public Object
 {
 public:
-    static void   Object_Cont_Start();
-    static void   Object_Cont_Execute();    
-    static void   Object_Cont_End();
+    static void   Object_State_Start();
+    static void   Object_State_Execute();    
+    static void   Object_State_End();
 
-    Object_Contactor(/* args */);
-    ~Object_Contactor();
+    Object_State(/* args */);
+    ~Object_State();
 protected: 
     
     
 private:
     /* data */ 
-} atObject_Contactor;
+} atObject_State;
 /**
  * @brief This function code is executed one time when class is init
  * 
  */
-Object_Contactor::Object_Contactor(/* args */)
+Object_State::Object_State(/* args */)
 {
-     _Start_User      = *Object_Cont_Start;
-     _Execute_User    = *Object_Cont_Execute;
-     _End_User        = *Object_Cont_End;
+     _Start_User      = *Object_State_Start;
+     _Execute_User    = *Object_State_Execute;
+     _End_User        = *Object_State_End;
 }
 /**
  * @brief This function code is executed one time when class is deinit
  * 
  */
-Object_Contactor::~Object_Contactor()
+Object_State::~Object_State()
 {
 }
 /**
  * This start function will init some critical function 
  */
-void  Object_Contactor::Object_Cont_Start()
+void  Object_State::Object_State_Start()
 {
   
-} 
+}
 /**
  * Execute fuction of SNM app
  */
-void  Object_Contactor:: Object_Cont_Execute()
+void  Object_State:: Object_State_Execute()
 {   
 
 }    
-void  Object_Contactor:: Object_Cont_End(){}
+void  Object_State:: Object_State_End(){}
 
 #endif
