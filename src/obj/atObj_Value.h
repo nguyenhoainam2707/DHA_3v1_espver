@@ -29,8 +29,14 @@ public:
     static void Object_Value_Execute();
     static void Object_Value_End();
 
-    static float voltage;
-    static uint16_t adcRawValue;
+    static float ch1Voltage;
+    static float ch2Voltage;
+    static float ch3Voltage;
+    static float ch4Voltage;
+    static uint16_t ch1RawValue;
+    static uint16_t ch2RawValue;
+    static uint16_t ch3RawValue;
+    static uint16_t ch4RawValue;
 
     Object_Value(/* args */);
     ~Object_Value();
@@ -40,8 +46,14 @@ private:
     /* data */
 } atObject_Value;
 
-float Object_Value::voltage = 0.0f;
-uint16_t Object_Value::adcRawValue = 0;
+float atObject_Value.ch1Voltage = 0.0f;
+float atObject_Value.ch2Voltage = 0.0f;
+float atObject_Value.ch3Voltage = 0.0f;
+float atObject_Value.ch4Voltage = 0.0f;
+uint16_t atObject_Value.ch1RawValue = 0;
+uint16_t atObject_Value.ch2RawValue = 0;
+uint16_t atObject_Value.ch3RawValue = 0;
+uint16_t atObject_Value.ch4RawValue = 0;
 /**
  * @brief This function code is executed one time when class is init
  *

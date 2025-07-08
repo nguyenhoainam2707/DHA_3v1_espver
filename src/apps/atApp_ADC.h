@@ -17,6 +17,7 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "../services/atService_ADS1115.h"
+#include "../src/obj/atObj_Param.h"
 #include "../src/obj/atObj_Value.h"
 /* _____DEFINITIONS__________________________________________________________ */
 
@@ -114,6 +115,36 @@ void App_ADC::App_ADC_Start()
 		{
 			Serial.println("ADS1115 init failed!");
 		}
+		for (int i = 0; i < 5; i++)
+		{
+			vTaskDelay(2000 / portTICK_PERIOD_MS); // Delay to allow the user to see the error message
+			ads1115InitOke = Service_ADS1115::ADS1115_Init(GAIN_TWOTHIRDS, RATE_ADS1115_8SPS);
+			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
+			{
+				Serial.println("Retry ADS1115 init...");
+			}
+			if (!ads1115InitOke)
+			{
+				Serial.println("ADS1115 init failed!");
+			}
+			vTaskSuspend(NULL); // Suspend the task if ADS1115 initialization fails again
+			else
+			{
+				if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
+				{
+					Serial.println("ADS1115 reinitialize success!");
+					break; // Exit the retry loop if initialization is successful
+				}
+			}
+		}
+		if (!ads1115InitOke)
+		{
+			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
+			{
+				Serial.println("Suspending ADC task due to repeated initialization failure.");
+			}
+			vTaskSuspend(NULL); // Suspend the task if ADS1115 initialization fails again
+		}
 	}
 }
 /**
@@ -127,27 +158,81 @@ void App_ADC::App_ADC_Restart()
  */
 void App_ADC::App_ADC_Execute()
 {
-	if (!ads1115InitOke)
+	if (atObject_Param.enCh1ADC)
 	{
-		ads1115InitOke = Service_ADS1115::ADS1115_Init(GAIN_TWOTHIRDS, RATE_ADS1115_8SPS);
-		if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
+		if (atObject_Param.enRawADC)
 		{
-			Serial.println("Retry ADS1115 init...");
+			atObject_Value.ch1RawValue = atService_ADS1115.ADS1115_readADC(0);
+			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
+			{
+				Serial.println("CH1: ADC raw value: " + String(atObject_Value.ch1RawValue));
+			}
 		}
-		if (!ads1115InitOke)
-			return; // Nếu vẫn lỗi thì dừng hàm, không đọc ADC
-		else if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
+		if (atObject_Param.enVolADC)
 		{
-			Serial.println("ADS1115 reinitialize success!");
+			atObject_Value.ch1Voltage = atService_ADS1115.ADS1115_readADC_Voltage(0);
+			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
+			{
+				Serial.println("CH1: Voltage: " + String(atObject_Value.ch1Voltage, 4) + " V");
+			}
 		}
 	}
-
-	Object_Value::adcRawValue = atService_ADS1115.ADS1115_readADC(0); // Channel 0->3
-	Object_Value::voltage = atService_ADS1115.ADS1115_readADC_Voltage(0);
-
-	if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
+	if (atObject_Param.enCh2ADC)
 	{
-		Serial.println("ADC Raw Value: " + String(Object_Value::adcRawValue) + "\t-->\tVoltage: " + String(Object_Value::voltage, 4) + " V");
+		if (atObject_Param.enRawADC)
+		{
+			atObject_Value.ch2RawValue = atService_ADS1115.ADS1115_readADC(1);
+			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
+			{
+				Serial.println("CH2: ADC raw value: " + String(atObject_Value.ch2RawValue));
+			}
+		}
+		if (atObject_Param.enVolADC)
+		{
+			atObject_Value.ch2Voltage = atService_ADS1115.ADS1115_readADC_Voltage(1);
+			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
+			{
+				Serial.println("CH2: Voltage: " + String(atObject_Value.ch2Voltage, 4) + " V");
+			}
+		}
+	}
+	if (atObject_Param.enCh3ADC)
+	{
+		if (atObject_Param.enRawADC)
+		{
+			atObject_Value.ch3RawValue = atService_ADS1115.ADS1115_readADC(2);
+			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
+			{
+				Serial.println("CH3: ADC raw value: " + String(atObject_Value.ch3RawValue));
+			}
+		}
+		if (atObject_Param.enVolADC)
+		{
+			atObject_Value.ch3Voltage = atService_ADS1115.ADS1115_readADC_Voltage(2);
+			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
+			{
+				Serial.println("CH3: Voltage: " + String(atObject_Value.ch3Voltage, 4) + " V");
+			}
+		}
+	}
+	if (atObject_Param.enCh4ADC)
+	{
+		if (atObject_Param.enRawADC)
+		{
+			atObject_Value.ch4RawValue = atService_ADS1115.ADS1115_readADC(3);
+			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
+			{
+				Serial.println("CH4: ADC raw value: " + String(atObject_Value.ch4RawValue));
+			}
+		}
+		if (atObject_Param.enVolADC)
+		{
+			atObject_Value.ch4Voltage = atService_ADS1115.ADS1115_readADC_Voltage(3);
+			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
+			{
+				Serial.println("CH4: Voltage: " + String(atObject_Value.ch4Voltage, 4) + " V");
+			}
+		}
 	}
 }
 void App_ADC::App_ADC_Suspend() {}

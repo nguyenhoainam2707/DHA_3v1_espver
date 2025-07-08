@@ -31,6 +31,13 @@ public:
     static void   Object_Param_Execute();    
     static void   Object_Param_End();
 
+    static bool enCh1ADC;
+    static bool enCh2ADC;
+    static bool enCh3ADC;
+    static bool enCh4ADC;
+    static bool enRawADC;
+    static bool enVolADC;
+
     Object_Param(/* args */);
     ~Object_Param();
 protected: 
@@ -39,6 +46,9 @@ protected:
 private:
     /* data */ 
 } atObject_Param;
+
+bool atObject_Param.enCh1ADC = false;
+bool atObject_Param.enCh2ADC = false;
 /**
  * @brief This function code is executed one time when class is init
  * 
