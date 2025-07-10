@@ -7,13 +7,6 @@
 #include "Object.h"
 /* _____DEFINITIONS__________________________________________________________ */
 
-enum Example
-{
-    default_1,
-    default2,
-    default3
-};
-
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 
@@ -47,8 +40,12 @@ private:
     /* data */ 
 } atObject_Param;
 
-bool atObject_Param.enCh1ADC = false;
-bool atObject_Param.enCh2ADC = false;
+bool Object_Param::enCh1ADC = true;
+bool Object_Param::enCh2ADC = true;
+bool Object_Param::enCh3ADC = true;
+bool Object_Param::enCh4ADC = true;
+bool Object_Param::enRawADC = true;
+bool Object_Param::enVolADC = true;
 /**
  * @brief This function code is executed one time when class is init
  * 

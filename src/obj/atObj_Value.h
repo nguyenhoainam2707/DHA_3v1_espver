@@ -46,14 +46,14 @@ private:
     /* data */
 } atObject_Value;
 
-float atObject_Value.ch1Voltage = 0.0f;
-float atObject_Value.ch2Voltage = 0.0f;
-float atObject_Value.ch3Voltage = 0.0f;
-float atObject_Value.ch4Voltage = 0.0f;
-uint16_t atObject_Value.ch1RawValue = 0;
-uint16_t atObject_Value.ch2RawValue = 0;
-uint16_t atObject_Value.ch3RawValue = 0;
-uint16_t atObject_Value.ch4RawValue = 0;
+float Object_Value::ch1Voltage = 0.0f;
+float Object_Value::ch2Voltage = 0.0f;
+float Object_Value::ch3Voltage = 0.0f;
+float Object_Value::ch4Voltage = 0.0f;
+uint16_t Object_Value::ch1RawValue = 0;
+uint16_t Object_Value::ch2RawValue = 0;
+uint16_t Object_Value::ch3RawValue = 0;
+uint16_t Object_Value::ch4RawValue = 0;
 /**
  * @brief This function code is executed one time when class is init
  *

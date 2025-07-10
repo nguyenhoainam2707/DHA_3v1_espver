@@ -127,14 +127,13 @@ void App_ADC::App_ADC_Start()
 			{
 				Serial.println("ADS1115 init failed!");
 			}
-			vTaskSuspend(NULL); // Suspend the task if ADS1115 initialization fails again
 			else
 			{
 				if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
 				{
 					Serial.println("ADS1115 reinitialize success!");
-					break; // Exit the retry loop if initialization is successful
 				}
+				break; // Exit the retry loop if initialization is successful
 			}
 		}
 		if (!ads1115InitOke)
@@ -158,79 +157,79 @@ void App_ADC::App_ADC_Restart()
  */
 void App_ADC::App_ADC_Execute()
 {
-	if (atObject_Param.enCh1ADC)
+	if (Object_Param::enCh1ADC)
 	{
-		if (atObject_Param.enRawADC)
+		if (Object_Param::enRawADC)
 		{
-			atObject_Value.ch1RawValue = atService_ADS1115.ADS1115_readADC(0);
+			Object_Value::ch1RawValue = atService_ADS1115.ADS1115_readADC(0);
 			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH1: ADC raw value: " + String(atObject_Value.ch1RawValue));
+				Serial.println("CH1: ADC raw value: " + String(Object_Value::ch1RawValue));
 			}
 		}
-		if (atObject_Param.enVolADC)
+		if (Object_Param::enVolADC)
 		{
-			atObject_Value.ch1Voltage = atService_ADS1115.ADS1115_readADC_Voltage(0);
+			Object_Value::ch1Voltage = atService_ADS1115.ADS1115_readADC_Voltage(0);
 			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH1: Voltage: " + String(atObject_Value.ch1Voltage, 4) + " V");
+				Serial.println("CH1: Voltage: " + String(Object_Value::ch1Voltage, 4) + " V");
 			}
 		}
 	}
-	if (atObject_Param.enCh2ADC)
+	if (Object_Param::enCh2ADC)
 	{
-		if (atObject_Param.enRawADC)
+		if (Object_Param::enRawADC)
 		{
-			atObject_Value.ch2RawValue = atService_ADS1115.ADS1115_readADC(1);
+			Object_Value::ch2RawValue = atService_ADS1115.ADS1115_readADC(1);
 			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH2: ADC raw value: " + String(atObject_Value.ch2RawValue));
+				Serial.println("CH2: ADC raw value: " + String(Object_Value::ch2RawValue));
 			}
 		}
-		if (atObject_Param.enVolADC)
+		if (Object_Param::enVolADC)
 		{
-			atObject_Value.ch2Voltage = atService_ADS1115.ADS1115_readADC_Voltage(1);
+			Object_Value::ch2Voltage = atService_ADS1115.ADS1115_readADC_Voltage(1);
 			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH2: Voltage: " + String(atObject_Value.ch2Voltage, 4) + " V");
+				Serial.println("CH2: Voltage: " + String(Object_Value::ch2Voltage, 4) + " V");
 			}
 		}
 	}
-	if (atObject_Param.enCh3ADC)
+	if (Object_Param::enCh3ADC)
 	{
-		if (atObject_Param.enRawADC)
+		if (Object_Param::enRawADC)
 		{
-			atObject_Value.ch3RawValue = atService_ADS1115.ADS1115_readADC(2);
+			Object_Value::ch3RawValue = atService_ADS1115.ADS1115_readADC(2);
 			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH3: ADC raw value: " + String(atObject_Value.ch3RawValue));
+				Serial.println("CH3: ADC raw value: " + String(Object_Value::ch3RawValue));
 			}
 		}
-		if (atObject_Param.enVolADC)
+		if (Object_Param::enVolADC)
 		{
-			atObject_Value.ch3Voltage = atService_ADS1115.ADS1115_readADC_Voltage(2);
+			Object_Value::ch3Voltage = atService_ADS1115.ADS1115_readADC_Voltage(2);
 			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH3: Voltage: " + String(atObject_Value.ch3Voltage, 4) + " V");
+				Serial.println("CH3: Voltage: " + String(Object_Value::ch3Voltage, 4) + " V");
 			}
 		}
 	}
-	if (atObject_Param.enCh4ADC)
+	if (Object_Param::enCh4ADC)
 	{
-		if (atObject_Param.enRawADC)
+		if (Object_Param::enRawADC)
 		{
-			atObject_Value.ch4RawValue = atService_ADS1115.ADS1115_readADC(3);
+			Object_Value::ch4RawValue = atService_ADS1115.ADS1115_readADC(3);
 			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH4: ADC raw value: " + String(atObject_Value.ch4RawValue));
+				Serial.println("CH4: ADC raw value: " + String(Object_Value::ch4RawValue));
 			}
 		}
-		if (atObject_Param.enVolADC)
+		if (Object_Param::enVolADC)
 		{
-			atObject_Value.ch4Voltage = atService_ADS1115.ADS1115_readADC_Voltage(3);
+			Object_Value::ch4Voltage = atService_ADS1115.ADS1115_readADC_Voltage(3);
 			if (atApp_ADC.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH4: Voltage: " + String(atObject_Value.ch4Voltage, 4) + " V");
+				Serial.println("CH4: Voltage: " + String(Object_Value::ch4Voltage, 4) + " V");
 			}
 		}
 	}

@@ -17,6 +17,7 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "../services/atService_EG800K.h"
+#include "../src/obj/atObj_Param.h"
 #include "../src/obj/atObj_Value.h"
 /* _____DEFINITIONS__________________________________________________________ */
 #define MQTT_PUB_TOPIC "esp32s3/adc"
@@ -101,8 +102,50 @@ void App_MQTT_PUB::App_MQTT_PUB_Restart()
 void App_MQTT_PUB::App_MQTT_PUB_Execute()
 {
 	String payload = "{";
-	payload += "\"ADC_0 Raw Value\":" + String(Object_Value::adcRawValue) + ",";
-	payload += "\"ADC_0 Voltage\":" + String(Object_Value::voltage, 4) + "}";
+	if (Object_Param::enCh1ADC)
+	{
+		if (Object_Param::enRawADC)
+		{
+			payload += "\"AI1 Raw Value\":" + String(Object_Value::ch1RawValue) + ",";
+		}
+		if (Object_Param::enVolADC)
+		{
+			payload += "\"AI1 Voltage\":" + String(Object_Value::ch1Voltage, 4) + ",";
+		}
+	}
+	if (Object_Param::enCh2ADC)
+	{
+		if (Object_Param::enRawADC)
+		{
+			payload += "\"AI2 Raw Value\":" + String(Object_Value::ch2RawValue) + ",";
+		}
+		if (Object_Param::enVolADC)
+		{
+			payload += "\"AI2 Voltage\":" + String(Object_Value::ch2Voltage, 4) + ",";
+		}
+	}
+	if (Object_Param::enCh3ADC)
+	{
+		if (Object_Param::enRawADC)
+		{
+			payload += "\"AI3 Raw Value\":" + String(Object_Value::ch3RawValue) + ",";
+		}
+		if (Object_Param::enVolADC)
+		{
+			payload += "\"AI3 Voltage\":" + String(Object_Value::ch3Voltage, 4) + ",";
+		}
+	}
+	if (Object_Param::enCh4ADC)
+	{
+		if (Object_Param::enRawADC)
+		{
+			payload += "\"AI4 Raw Value\":" + String(Object_Value::ch4RawValue) + ",";
+		}
+		if (Object_Param::enVolADC)
+		{
+			payload += "\"AI4 Voltage\":" + String(Object_Value::ch4Voltage, 4) + "}";
+		}
+	}
 	Service_EG800K::publishMQTTData(payload, MQTT_PUB_TOPIC);
 }
 void App_MQTT_PUB::App_MQTT_PUB_Suspend() {}

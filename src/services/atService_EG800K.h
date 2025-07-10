@@ -60,6 +60,8 @@ public:
     static void handleMQTTMessage();
     static void configFTP();
     static void sendFTPfile(const String &filename, const String &content);
+    static void configGPS();
+    static void getPosition();
 
 protected:
 private:
@@ -179,7 +181,7 @@ void Service_EG800K::handleMQTTMessage()
     {
         char c = EGSerial.read();
         if (!receiving)
-        { 
+        {
             // Tìm bắt đầu chuỗi +QMTRECV:
             if (c == '+')
             {
@@ -270,6 +272,28 @@ void Service_EG800K::sendFTPfile(const String &filename, const String &content)
     }
 }
 
+void Service_EG800K::configGPS(){
+    if (atService_EG800K.User_Mode == SER_USER_MODE_DEBUG)
+    {
+        Serial.println("Configuring GPS...");
+    }
+    sendAT("AT+QGPS=1", 10000);  // Bật GPS
+    sendAT("AT+QGPS?", DEFAULT_TIMEOUT); // Kiểm tra trạng thái GPS
+    // sendAT("AT+QGPSCFG=?", DEFAULT_TIMEOUT); // Kiểm tra cấu hình GPS
+    // sendAT("AT+QGPSCFG=\"gpsnmeatype\",2", DEFAULT_TIMEOUT); // Chỉ định dạng NMEA
+    // sendAT("AT+QGPSCFG=\"gnssconfig\",0", DEFAULT_TIMEOUT);  // Cấu hình GNSS: GPS
+    // sendAT("AT+QGPSSTATUS?", DEFAULT_TIMEOUT); // Kiểm tra trạng thái GPS
+    // sendAT("AT+QGPSLOC?", DEFAULT_TIMEOUT); // Lấy vị trí GPS
+}
+void Service_EG800K::getPosition()
+{
+    // Lấy vị trí GPS
+    if (atService_EG800K.User_Mode == SER_USER_MODE_DEBUG)
+    {
+        Serial.println("Getting GPS position...");
+    }
+    sendAT("AT+QGPSLOC=0", DEFAULT_TIMEOUT); // Lấy vị trí GPS
+}
 /**
  * This start function will init some critical function
  */
