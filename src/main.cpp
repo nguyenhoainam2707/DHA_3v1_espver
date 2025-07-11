@@ -36,15 +36,15 @@ void setup()
   // atApp_AP.Debug();
   // atApp_CP.Debug();
   // atApp_Database.Debug();
-  // atApp_DI.Debug();
-  atApp_GPS.Debug();
+  atApp_DI.Debug();
+  // atApp_GPS.Debug();
   // atApp_LED.Debug();
   // atApp_MB.Debug();
   // atApp_PWM.Debug();
   // Uncomment to put the service in debug mode
-  atService_EG800K.Debug();
+  // atService_EG800K.Debug();
   // atService_ADS1115.Debug();
-  // atService_PCF8574.Debug();
+  atService_PCF8574.Debug();
   // atService_Modbus.Debug();
 
   // --------------------------------------------Tasks table--------------------------------------------//
@@ -57,8 +57,8 @@ void setup()
   // xTaskCreatePinnedToCore(atApp_AP_Task_Func, "atApp_AP_Application", 2048, NULL, 1, &Task_atApp_AP, 1);
   // xTaskCreatePinnedToCore(atApp_ADC_Task_Func, "atApp_ADC_Application", 2048, NULL, 1, &Task_atApp_ADC, 1);
   // xTaskCreatePinnedToCore(atApp_Database_Task_Func, "atApp_Database_Application", 2048, NULL, 1, &Task_atApp_Database, 1);
-  // xTaskCreatePinnedToCore(atApp_DI_Task_Func, "atApp_DI_Application", 2048, NULL, 1, &Task_atApp_DI, 1);
-  xTaskCreatePinnedToCore(atApp_GPS_Task_Func, "atApp_GPS_Application", 2048, NULL, 1, &Task_atApp_GPS, 1);
+  xTaskCreatePinnedToCore(atApp_DI_Task_Func, "atApp_DI_Application", 2048, NULL, 1, &Task_atApp_DI, 1);
+  // xTaskCreatePinnedToCore(atApp_GPS_Task_Func, "atApp_GPS_Application", 2048, NULL, 1, &Task_atApp_GPS, 1);
   // xTaskCreatePinnedToCore(atApp_LED_Task_Func, "atApp_LED_Application", 2048, NULL, 1, &Task_atApp_LED, 1);
   // xTaskCreatePinnedToCore(atApp_MB_Task_Func, "atApp_MB_Application", 2048, NULL, 1, &Task_atApp_MB, 1);
   // xTaskCreatePinnedToCore(atApp_PWM_Task_Func, "atApp_PWM_Application", 2048, NULL, 1, &Task_atApp_PWM, 1);
