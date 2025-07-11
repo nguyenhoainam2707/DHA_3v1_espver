@@ -12,7 +12,7 @@
 #include "../src/apps/atApp_MQTT_PUB.h"
 #include "../src/apps/atApp_MQTT_SUB.h"
 #include "../src/apps/atApp_FTP.h"
-#include "../src/apps/atApp_ADC.h"
+#include "../src/apps/atApp_AI.h"
 #include "../src/apps/atApp_AP.h"
 #include "../src/apps/atApp_CP.h"
 #include "../src/apps/atApp_Database.h"
@@ -32,7 +32,7 @@ void setup()
   // atApp_MQTT_PUB.Debug();
   // atApp_MQTT_SUB.Debug();
   // atApp_FTP.Debug();
-  // atApp_ADC.Debug();
+  // atApp_AI.Debug();
   // atApp_AP.Debug();
   // atApp_CP.Debug();
   // atApp_Database.Debug();
@@ -55,7 +55,7 @@ void setup()
   // xTaskCreatePinnedToCore(atApp_MQTT_SUB_Task_Func, "atApp_MQTT_SUB_Application", 2048, NULL, 1, &Task_atApp_MQTT_SUB, 1);
   // xTaskCreatePinnedToCore(atApp_FTP_Task_Func, "atApp_FTP_Application", 2048, NULL, 1, &Task_atApp_FTP, 1);
   // xTaskCreatePinnedToCore(atApp_AP_Task_Func, "atApp_AP_Application", 2048, NULL, 1, &Task_atApp_AP, 1);
-  // xTaskCreatePinnedToCore(atApp_ADC_Task_Func, "atApp_ADC_Application", 2048, NULL, 1, &Task_atApp_ADC, 1);
+  // xTaskCreatePinnedToCore(atApp_AI_Task_Func, "atApp_AI_Application", 2048, NULL, 1, &Task_atApp_AI, 1);
   // xTaskCreatePinnedToCore(atApp_Database_Task_Func, "atApp_Database_Application", 2048, NULL, 1, &Task_atApp_Database, 1);
   xTaskCreatePinnedToCore(atApp_DI_Task_Func, "atApp_DI_Application", 2048, NULL, 1, &Task_atApp_DI, 1);
   // xTaskCreatePinnedToCore(atApp_GPS_Task_Func, "atApp_GPS_Application", 2048, NULL, 1, &Task_atApp_GPS, 1);

@@ -102,46 +102,46 @@ void App_MQTT_PUB::App_MQTT_PUB_Restart()
 void App_MQTT_PUB::App_MQTT_PUB_Execute()
 {
 	String payload = "{";
-	if (Object_Param::enCh1ADC)
+	if (Object_Param::enCh1AI)
 	{
-		if (Object_Param::enRawADC)
+		if (Object_Param::enRawAI)
 		{
 			payload += "\"AI1 Raw Value\":" + String(Object_Value::ch1RawValue) + ",";
 		}
-		if (Object_Param::enVolADC)
+		if (Object_Param::enVolAI)
 		{
 			payload += "\"AI1 Voltage\":" + String(Object_Value::ch1Voltage, 4) + ",";
 		}
 	}
-	if (Object_Param::enCh2ADC)
+	if (Object_Param::enCh2AI)
 	{
-		if (Object_Param::enRawADC)
+		if (Object_Param::enRawAI)
 		{
 			payload += "\"AI2 Raw Value\":" + String(Object_Value::ch2RawValue) + ",";
 		}
-		if (Object_Param::enVolADC)
+		if (Object_Param::enVolAI)
 		{
 			payload += "\"AI2 Voltage\":" + String(Object_Value::ch2Voltage, 4) + ",";
 		}
 	}
-	if (Object_Param::enCh3ADC)
+	if (Object_Param::enCh3AI)
 	{
-		if (Object_Param::enRawADC)
+		if (Object_Param::enRawAI)
 		{
 			payload += "\"AI3 Raw Value\":" + String(Object_Value::ch3RawValue) + ",";
 		}
-		if (Object_Param::enVolADC)
+		if (Object_Param::enVolAI)
 		{
 			payload += "\"AI3 Voltage\":" + String(Object_Value::ch3Voltage, 4) + ",";
 		}
 	}
-	if (Object_Param::enCh4ADC)
+	if (Object_Param::enCh4AI)
 	{
-		if (Object_Param::enRawADC)
+		if (Object_Param::enRawAI)
 		{
 			payload += "\"AI4 Raw Value\":" + String(Object_Value::ch4RawValue) + ",";
 		}
-		if (Object_Param::enVolADC)
+		if (Object_Param::enVolAI)
 		{
 			payload += "\"AI4 Voltage\":" + String(Object_Value::ch4Voltage, 4) + "}";
 		}
