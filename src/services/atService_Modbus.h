@@ -1,14 +1,3 @@
-/**
-@file
-*/
-/*
-  Service_atService_Modbus.h
-
-  This version is
-
-  Copyright:: 2021 nguyentrinhtuan1996@gmail.com
-*/
-
 #ifndef _Service_atService_Modbus_
 #define _Service_atService_Modbus_
 /* _____PROJECT INCLUDES____________________________________________________ */

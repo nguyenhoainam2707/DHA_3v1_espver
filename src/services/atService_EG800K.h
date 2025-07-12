@@ -1,14 +1,3 @@
-/**
-@file
-*/
-/*
-  Service_atService_EG800K.h
-
-  This version is
-
-  Copyright:: 2021 nguyentrinhtuan1996@gmail.com
-*/
-
 #ifndef _Service_atService_EG800K_
 #define _Service_atService_EG800K_
 /* _____PROJECT INCLUDES____________________________________________________ */

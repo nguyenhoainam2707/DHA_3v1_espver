@@ -1,17 +1,3 @@
-/**
-@file
-Object Template.
-*/
-/*
-  Application_HMI.h - Arduino library for communicating with OP320A&S HMI
-  over RS232/485 (via RTU protocol).
-
-  Library:: chickyPig_OP320_V1
-
-  This version is
-
-  Copyright:: 2021 nguyentrinhtuan1996@gmail.com
-*/
 #ifndef _Object_
 #define _Object_
 /* _____PROJECT INCLUDES____________________________________________________ */
