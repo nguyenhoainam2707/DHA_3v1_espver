@@ -1,15 +1,3 @@
-/**
-@file
-Application Template.
-*/
-/*
-
-  Library::
-
-  This version is
-
-  Copyright:: 2021 nguyentrinhtuan1996@gmail.com
-*/
 #ifndef _Application_
 #define _Application_
 /* _____PROJECT INCLUDES____________________________________________________ */

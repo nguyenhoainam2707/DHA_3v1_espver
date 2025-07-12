@@ -1,16 +1,3 @@
-/**
-@file
-Service Template.
-*/
-/*
-  Service
-
-  Library:: 
-
-  This version is
-
-  Copyright:: 2021 nguyentrinhtuan1996@gmail.com
-*/
 #ifndef _Service_
 #define _Service_
 /* _____PROJECT INCLUDES____________________________________________________ */

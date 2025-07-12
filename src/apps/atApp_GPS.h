@@ -1,17 +1,3 @@
-/**
-@file
-
-*/
-/*
-  Application example t
-
-  Library::
-
-  This version is
-
-  Copyright:: 2021 nguyentrinhtuan1996@gmail.com
-*/
-
 #ifndef _Application_atApp_GPS_
 #define _Application_atApp_GPS_
 /* _____PROJECT INCLUDES____________________________________________________ */
