@@ -15,8 +15,12 @@
 #include "Service.h"
 #include <Adafruit_ADS1X15.h>
 /* _____DEFINETIONS__________________________________________________________ */
-#define SDA_PIN 48
-#define SCL_PIN 45
+#ifndef SDA_PIN
+#define SDA_PIN 48 // Default SDA pin
+#endif
+#ifndef SCL_PIN
+#define SCL_PIN 45 // Default SCL pin
+#endif
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____GLOBAL FUNCTION______________________________________________________ */
@@ -34,8 +38,8 @@ public:
     ~Service_ADS1115();
 
     static bool ADS1115_Init(adsGain_t gain, uint16_t rate);
-    int16_t ADS1115_readADC(uint8_t channel);
-    float ADS1115_readADC_Voltage(uint8_t channel);
+    int16_t ADS1115_readAI(uint8_t channel);
+    float ADS1115_readAI_Voltage(uint8_t channel);
 protected:
 private:
     static void Service_ADS1115_Start();
@@ -84,11 +88,11 @@ bool Service_ADS1115::ADS1115_Init(adsGain_t gain, uint16_t rate)
     ads.setDataRate(rate);
     return true;
 }
-int16_t Service_ADS1115::ADS1115_readADC(uint8_t channel)
+int16_t Service_ADS1115::ADS1115_readAI(uint8_t channel)
 {
     return ads.readADC_SingleEnded(channel);
 }
-float Service_ADS1115::ADS1115_readADC_Voltage(uint8_t channel)
+float Service_ADS1115::ADS1115_readAI_Voltage(uint8_t channel)
 {
     return ads.computeVolts(ads.readADC_SingleEnded(channel));
 }

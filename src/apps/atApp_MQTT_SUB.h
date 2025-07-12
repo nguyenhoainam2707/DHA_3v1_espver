@@ -17,7 +17,7 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "../services/atService_EG800K.h"
-#include "../src/obj/atObj_Value.h"
+#include "../src/obj/atObj_Data.h"
 /* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
@@ -85,26 +85,9 @@ void App_MQTT_SUB::App_MQTT_SUB_Pend()
 void App_MQTT_SUB::App_MQTT_SUB_Start()
 {
 	// Init atEG800K Service in the fist running time
-	if (Service_EG800K::EG800K_configuring)
-		while (Service_EG800K::EG800K_configuring)
-		{
-			vTaskDelay(100 / portTICK_PERIOD_MS);
-		}
-	else
-	{
-		if (!Service_EG800K::EG800K_configured)
-			Service_EG800K::configEG800K();
-	}
-	if (Service_EG800K::MQTT_configuring)
-		while (Service_EG800K::MQTT_configuring)
-		{
-			vTaskDelay(100 / portTICK_PERIOD_MS);
-		}
-	else
-	{
-		if (!Service_EG800K::MQTT_configured)
-			Service_EG800K::configMQTT();
-	}
+	atService_EG800K.Run_Service();
+	Service_EG800K::configEG800K();
+	Service_EG800K::configMQTT();
 	// Subscribe to MQTT topic
 	Service_EG800K::subscribeMQTTTopic("esp32s3/content");
 }
