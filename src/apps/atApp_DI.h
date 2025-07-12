@@ -85,7 +85,7 @@ void App_DI::App_DI_Restart()
 void App_DI::App_DI_Execute()
 {
 	// Read DI channels
-	if (Object_Param::enCh1DI)
+	if (atObject_Param.enCh1DI)
 	{
 		bool state = atService_PCF8574.pcfDigitalRead(1);
 		if (atApp_DI.User_Mode == APP_USER_MODE_DEBUG)
@@ -94,7 +94,7 @@ void App_DI::App_DI_Execute()
 			Serial.println(state);
 		}
 	}
-	if (Object_Param::enCh2DI)
+	if (atObject_Param.enCh2DI)
 	{
 		bool state = atService_PCF8574.pcfDigitalRead(2);
 		if (atApp_DI.User_Mode == APP_USER_MODE_DEBUG)
@@ -103,7 +103,7 @@ void App_DI::App_DI_Execute()
 			Serial.println(state);
 		}
 	}
-	if (Object_Param::enCh3DI)
+	if (atObject_Param.enCh3DI)
 	{
 		bool state = atService_PCF8574.pcfDigitalRead(3);
 		if (atApp_DI.User_Mode == APP_USER_MODE_DEBUG)
@@ -112,7 +112,7 @@ void App_DI::App_DI_Execute()
 			Serial.println(state);
 		}
 	}
-	if (Object_Param::enCh4DI)
+	if (atObject_Param.enCh4DI)
 	{
 		bool state = atService_PCF8574.pcfDigitalRead(4);
 		if (atApp_DI.User_Mode == APP_USER_MODE_DEBUG)
@@ -123,7 +123,7 @@ void App_DI::App_DI_Execute()
 	}
 	if (atApp_DI.User_Mode == APP_USER_MODE_DEBUG)
 	{
-		if (Object_Param::enCh1DI || Object_Param::enCh2DI || Object_Param::enCh3DI || Object_Param::enCh4DI)
+		if (atObject_Param.enCh1DI || atObject_Param.enCh2DI || atObject_Param.enCh3DI || atObject_Param.enCh4DI)
 		{
 			Serial.println("--------------------------------------------------");
 		}
@@ -137,7 +137,7 @@ void atApp_DI_Task_Func(void *parameter)
 	while (1)
 	{
 		atApp_DI.Run_Application(APP_RUN_MODE_AUTO);
-		vTaskDelay(Object_Param::delayDI / portTICK_PERIOD_MS);
+		vTaskDelay(atObject_Param.delayDI / portTICK_PERIOD_MS);
 	}
 }
 #endif

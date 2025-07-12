@@ -4,7 +4,7 @@
 #include "App.h"
 #include "../services/atService_ADS1115.h"
 #include "../src/obj/atObj_Param.h"
-#include "../src/obj/atObj_Value.h"
+#include "../src/obj/atObj_Data.h"
 /* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
@@ -145,77 +145,77 @@ void App_AI::App_AI_Execute()
 {
 	if (atObject_Param.enCh1AI)
 	{
-		if (Object_Param::enRawAI)
+		if (atObject_Param.enRawAI)
 		{
-			Object_Value::ch1RawValue = atService_ADS1115.ADS1115_readAI(0);
+			atObject_Data.ch1RawData = atService_ADS1115.ADS1115_readAI(0);
 			if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH1: AI raw value: " + String(Object_Value::ch1RawValue));
+				Serial.println("CH1: AI raw data: " + String(atObject_Data.ch1RawData));
 			}
 		}
-		if (Object_Param::enVolAI)
+		if (atObject_Param.enVolAI)
 		{
-			Object_Value::ch1Voltage = atService_ADS1115.ADS1115_readAI_Voltage(0);
+			atObject_Data.ch1Voltage = atService_ADS1115.ADS1115_readAI_Voltage(0);
 			if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH1: Voltage: " + String(Object_Value::ch1Voltage, 4) + " V");
-			}
-		}
-	}
-	if (Object_Param::enCh2AI)
-	{
-		if (Object_Param::enRawAI)
-		{
-			Object_Value::ch2RawValue = atService_ADS1115.ADS1115_readAI(1);
-			if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
-			{
-				Serial.println("CH2: AI raw value: " + String(Object_Value::ch2RawValue));
-			}
-		}
-		if (Object_Param::enVolAI)
-		{
-			Object_Value::ch2Voltage = atService_ADS1115.ADS1115_readAI_Voltage(1);
-			if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
-			{
-				Serial.println("CH2: Voltage: " + String(Object_Value::ch2Voltage, 4) + " V");
+				Serial.println("CH1: Voltage: " + String(atObject_Data.ch1Voltage, 4) + " V");
 			}
 		}
 	}
-	if (Object_Param::enCh3AI)
+	if (atObject_Param.enCh2AI)
 	{
-		if (Object_Param::enRawAI)
+		if (atObject_Param.enRawAI)
 		{
-			Object_Value::ch3RawValue = atService_ADS1115.ADS1115_readAI(2);
+			atObject_Data.ch2RawData = atService_ADS1115.ADS1115_readAI(1);
 			if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH3: AI raw value: " + String(Object_Value::ch3RawValue));
+				Serial.println("CH2: AI raw data: " + String(atObject_Data.ch2RawData));
 			}
 		}
-		if (Object_Param::enVolAI)
+		if (atObject_Param.enVolAI)
 		{
-			Object_Value::ch3Voltage = atService_ADS1115.ADS1115_readAI_Voltage(2);
+			atObject_Data.ch2Voltage = atService_ADS1115.ADS1115_readAI_Voltage(1);
 			if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH3: Voltage: " + String(Object_Value::ch3Voltage, 4) + " V");
+				Serial.println("CH2: Voltage: " + String(atObject_Data.ch2Voltage, 4) + " V");
 			}
 		}
 	}
-	if (Object_Param::enCh4AI)
+	if (atObject_Param.enCh3AI)
 	{
-		if (Object_Param::enRawAI)
+		if (atObject_Param.enRawAI)
 		{
-			Object_Value::ch4RawValue = atService_ADS1115.ADS1115_readAI(3);
+			atObject_Data.ch3RawData = atService_ADS1115.ADS1115_readAI(2);
 			if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH4: AI raw value: " + String(Object_Value::ch4RawValue));
+				Serial.println("CH3: AI raw data: " + String(atObject_Data.ch3RawData));
 			}
 		}
-		if (Object_Param::enVolAI)
+		if (atObject_Param.enVolAI)
 		{
-			Object_Value::ch4Voltage = atService_ADS1115.ADS1115_readAI_Voltage(3);
+			atObject_Data.ch3Voltage = atService_ADS1115.ADS1115_readAI_Voltage(2);
 			if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH4: Voltage: " + String(Object_Value::ch4Voltage, 4) + " V");
+				Serial.println("CH3: Voltage: " + String(atObject_Data.ch3Voltage, 4) + " V");
+			}
+		}
+	}
+	if (atObject_Param.enCh4AI)
+	{
+		if (atObject_Param.enRawAI)
+		{
+			atObject_Data.ch4RawData = atService_ADS1115.ADS1115_readAI(3);
+			if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
+			{
+				Serial.println("CH4: AI raw data: " + String(atObject_Data.ch4RawData));
+			}
+		}
+		if (atObject_Param.enVolAI)
+		{
+			atObject_Data.ch4Voltage = atService_ADS1115.ADS1115_readAI_Voltage(3);
+			if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
+			{
+				Serial.println("CH4: Voltage: " + String(atObject_Data.ch4Voltage, 4) + " V");
 			}
 		}
 	}

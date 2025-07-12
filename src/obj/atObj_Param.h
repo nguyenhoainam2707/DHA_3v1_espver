@@ -60,36 +60,6 @@ protected:
 private:
     /* data */
 } atObject_Param;
-// Parameters for AI channels
-// bool Object_Param::enCh1AI = true;
-bool Object_Param::enCh2AI = true;
-bool Object_Param::enCh3AI = true;
-bool Object_Param::enCh4AI = true;
-bool Object_Param::enRawAI = true;
-bool Object_Param::enVolAI = true;
-// Parameters for DI channels
-bool Object_Param::enCh1DI = true;
-bool Object_Param::enCh2DI = true;
-bool Object_Param::enCh3DI = true;
-bool Object_Param::enCh4DI = true;
-uint32_t Object_Param::delayDI = 100; // Default delay for DI channels in milliseconds
-// Parameters for PWM channels
-bool Object_Param::enCh1PWM = true;
-bool Object_Param::enCh2PWM = true;
-bool Object_Param::enCh3PWM = true;
-bool Object_Param::enCh4PWM = true;
-uint32_t Object_Param::freqCh1PWM = 5000; // Default frequency for PWM channels in Hz
-uint32_t Object_Param::freqCh2PWM = 5000; // Default frequency for PWM channels in Hz
-uint32_t Object_Param::freqCh3PWM = 5000; // Default frequency for PWM channels in Hz
-uint32_t Object_Param::freqCh4PWM = 5000; // Default frequency for PWM channels in Hz
-uint8_t Object_Param::resolutionCh1PWM = 8; // Default resolution for PWM channels
-uint8_t Object_Param::resolutionCh2PWM = 8; // Default resolution for PWM channels
-uint8_t Object_Param::resolutionCh3PWM = 8; // Default resolution for PWM channels
-uint8_t Object_Param::resolutionCh4PWM = 8; // Default resolution for PWM channels
-float Object_Param::dutyCycleCh1PWM = 50.00; // Default duty cycle for PWM channels (50%)
-float Object_Param::dutyCycleCh2PWM = 50.00; // Default duty cycle for PWM channels (50%)
-float Object_Param::dutyCycleCh3PWM = 50.00; // Default duty cycle for PWM channels (50%)
-float Object_Param::dutyCycleCh4PWM = 50.00; // Default duty cycle for PWM channels (50%)
 
 /**
  * @brief This function code is executed one time when class is init

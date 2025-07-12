@@ -55,22 +55,22 @@ private:
 	static void App_PWM_End();
 } atApp_PWM;
 
-bool App_PWM::prevEnCh1PWM = Object_Param::enCh1PWM;
-bool App_PWM::prevEnCh2PWM = Object_Param::enCh2PWM;
-bool App_PWM::prevEnCh3PWM = Object_Param::enCh3PWM;
-bool App_PWM::prevEnCh4PWM = Object_Param::enCh4PWM;
-uint32_t App_PWM::prevFreqCh1PWM = Object_Param::freqCh1PWM;
-uint32_t App_PWM::prevFreqCh2PWM = Object_Param::freqCh2PWM;
-uint32_t App_PWM::prevFreqCh3PWM = Object_Param::freqCh3PWM;
-uint32_t App_PWM::prevFreqCh4PWM = Object_Param::freqCh4PWM;
-uint8_t App_PWM::prevResolutionCh1PWM = Object_Param::resolutionCh1PWM;
-uint8_t App_PWM::prevResolutionCh2PWM = Object_Param::resolutionCh2PWM;
-uint8_t App_PWM::prevResolutionCh3PWM = Object_Param::resolutionCh3PWM;
-uint8_t App_PWM::prevResolutionCh4PWM = Object_Param::resolutionCh4PWM;
-float App_PWM::prevDutyCycleCh1PWM = Object_Param::dutyCycleCh1PWM;
-float App_PWM::prevDutyCycleCh2PWM = Object_Param::dutyCycleCh2PWM;
-float App_PWM::prevDutyCycleCh3PWM = Object_Param::dutyCycleCh3PWM;
-float App_PWM::prevDutyCycleCh4PWM = Object_Param::dutyCycleCh4PWM;
+bool App_PWM::prevEnCh1PWM = atObject_Param.enCh1PWM;
+bool App_PWM::prevEnCh2PWM = atObject_Param.enCh2PWM;
+bool App_PWM::prevEnCh3PWM = atObject_Param.enCh3PWM;
+bool App_PWM::prevEnCh4PWM = atObject_Param.enCh4PWM;
+uint32_t App_PWM::prevFreqCh1PWM = atObject_Param.freqCh1PWM;
+uint32_t App_PWM::prevFreqCh2PWM = atObject_Param.freqCh2PWM;
+uint32_t App_PWM::prevFreqCh3PWM = atObject_Param.freqCh3PWM;
+uint32_t App_PWM::prevFreqCh4PWM = atObject_Param.freqCh4PWM;
+uint8_t App_PWM::prevResolutionCh1PWM = atObject_Param.resolutionCh1PWM;
+uint8_t App_PWM::prevResolutionCh2PWM = atObject_Param.resolutionCh2PWM;
+uint8_t App_PWM::prevResolutionCh3PWM = atObject_Param.resolutionCh3PWM;
+uint8_t App_PWM::prevResolutionCh4PWM = atObject_Param.resolutionCh4PWM;
+float App_PWM::prevDutyCycleCh1PWM = atObject_Param.dutyCycleCh1PWM;
+float App_PWM::prevDutyCycleCh2PWM = atObject_Param.dutyCycleCh2PWM;
+float App_PWM::prevDutyCycleCh3PWM = atObject_Param.dutyCycleCh3PWM;
+float App_PWM::prevDutyCycleCh4PWM = atObject_Param.dutyCycleCh4PWM;
 /**
  * This function will be automaticaly called when a object is created by this class
  */
@@ -112,19 +112,19 @@ void App_PWM::App_PWM_Start()
 	{
 		Serial.println("PWM Application is starting...");
 	}
-	if (Object_Param::enCh1PWM)
+	if (atObject_Param.enCh1PWM)
 	{
 		setPWMChannel(1);
 	}
-	if (Object_Param::enCh2PWM)
+	if (atObject_Param.enCh2PWM)
 	{
 		setPWMChannel(2);
 	}
-	if (Object_Param::enCh3PWM)
+	if (atObject_Param.enCh3PWM)
 	{
 		setPWMChannel(3);
 	}
-	if (Object_Param::enCh4PWM)
+	if (atObject_Param.enCh4PWM)
 	{
 		setPWMChannel(4);
 	}
@@ -149,134 +149,134 @@ void App_PWM::setPWMChannel(uint8_t channel)
 	switch (channel)
 	{
 	case 1:
-		if (Object_Param::freqCh1PWM < 1 || Object_Param::freqCh1PWM > 20000)
+		if (atObject_Param.freqCh1PWM < 1 || atObject_Param.freqCh1PWM > 20000)
 		{
 			if (atApp_PWM.User_Mode == APP_USER_MODE_DEBUG)
 			{
 				Serial.print("Invalid frequency for Channel 1 PWM: ");
-				Serial.print(Object_Param::freqCh1PWM);
+				Serial.print(atObject_Param.freqCh1PWM);
 				Serial.println(" Hz. Setting to default 5000 Hz. Frequency must be between 1 and 20000 Hz.");
 			}
-			Object_Param::freqCh1PWM = 5000;
+			atObject_Param.freqCh1PWM = 5000;
 		}
-		if (Object_Param::resolutionCh1PWM < 1 || Object_Param::resolutionCh1PWM > 14)
+		if (atObject_Param.resolutionCh1PWM < 1 || atObject_Param.resolutionCh1PWM > 14)
 		{
 			if (atApp_PWM.User_Mode == APP_USER_MODE_DEBUG)
 			{
 				Serial.print("Invalid resolution for Channel 1 PWM: ");
-				Serial.print(Object_Param::resolutionCh1PWM);
+				Serial.print(atObject_Param.resolutionCh1PWM);
 				Serial.println(" bits. Setting to default 8 bits. Resolution must be between 1 and 14 bits.");
 			}
-			Object_Param::resolutionCh1PWM = 8;
+			atObject_Param.resolutionCh1PWM = 8;
 		}
-		ledcSetup(0, Object_Param::freqCh1PWM, Object_Param::resolutionCh1PWM);
+		ledcSetup(0, atObject_Param.freqCh1PWM, atObject_Param.resolutionCh1PWM);
 		ledcAttachPin(P1_PWM, 0);
-		ledcWrite(0, (uint32_t)(Object_Param::dutyCycleCh1PWM * ((1 << Object_Param::resolutionCh1PWM) - 1) / 100));
+		ledcWrite(0, (uint32_t)(atObject_Param.dutyCycleCh1PWM * ((1 << atObject_Param.resolutionCh1PWM) - 1) / 100));
 		if (atApp_PWM.User_Mode == APP_USER_MODE_DEBUG)
 		{
 			Serial.print("Channel 1 PWM started with frequency: ");
-			Serial.print(Object_Param::freqCh1PWM);
+			Serial.print(atObject_Param.freqCh1PWM);
 			Serial.print(" Hz, resolution: ");
-			Serial.print(Object_Param::resolutionCh1PWM);
+			Serial.print(atObject_Param.resolutionCh1PWM);
 			Serial.println(" bits.");
 		}
 		break;
 	case 2:
-		if (Object_Param::freqCh2PWM < 1 || Object_Param::freqCh2PWM > 20000)
+		if (atObject_Param.freqCh2PWM < 1 || atObject_Param.freqCh2PWM > 20000)
 		{
 			if (atApp_PWM.User_Mode == APP_USER_MODE_DEBUG)
 			{
 				Serial.print("Invalid frequency for Channel 2 PWM: ");
-				Serial.print(Object_Param::freqCh2PWM);
+				Serial.print(atObject_Param.freqCh2PWM);
 				Serial.println(" Hz. Setting to default 5000 Hz. Frequency must be between 1 and 20000 Hz.");
 			}
-			Object_Param::freqCh2PWM = 5000;
+			atObject_Param.freqCh2PWM = 5000;
 		}
-		if (Object_Param::resolutionCh2PWM < 1 || Object_Param::resolutionCh2PWM > 14)
+		if (atObject_Param.resolutionCh2PWM < 1 || atObject_Param.resolutionCh2PWM > 14)
 		{
 			if (atApp_PWM.User_Mode == APP_USER_MODE_DEBUG)
 			{
 				Serial.print("Invalid resolution for Channel 2 PWM: ");
-				Serial.print(Object_Param::resolutionCh2PWM);
+				Serial.print(atObject_Param.resolutionCh2PWM);
 				Serial.println(" bits. Setting to default 8 bits. Resolution must be between 1 and 14 bits.");
 			}
-			Object_Param::resolutionCh2PWM = 8;
+			atObject_Param.resolutionCh2PWM = 8;
 		}
-		ledcSetup(1, Object_Param::freqCh2PWM, Object_Param::resolutionCh2PWM);
+		ledcSetup(1, atObject_Param.freqCh2PWM, atObject_Param.resolutionCh2PWM);
 		ledcAttachPin(P2_PWM, 1);
-		ledcWrite(1, (uint32_t)(Object_Param::dutyCycleCh2PWM * ((1 << Object_Param::resolutionCh2PWM) - 1) / 100));
+		ledcWrite(1, (uint32_t)(atObject_Param.dutyCycleCh2PWM * ((1 << atObject_Param.resolutionCh2PWM) - 1) / 100));
 		if (atApp_PWM.User_Mode == APP_USER_MODE_DEBUG)
 		{
 			Serial.print("Channel 2 PWM started with frequency: ");
-			Serial.print(Object_Param::freqCh2PWM);
+			Serial.print(atObject_Param.freqCh2PWM);
 			Serial.print(" Hz, resolution: ");
-			Serial.print(Object_Param::resolutionCh2PWM);
+			Serial.print(atObject_Param.resolutionCh2PWM);
 			Serial.println(" bits.");
 		}
 		break;
 	case 3:
-		if (Object_Param::freqCh3PWM < 1 || Object_Param::freqCh3PWM > 20000)
+		if (atObject_Param.freqCh3PWM < 1 || atObject_Param.freqCh3PWM > 20000)
 		{
 			if (atApp_PWM.User_Mode == APP_USER_MODE_DEBUG)
 			{
 				Serial.print("Invalid frequency for Channel 3 PWM: ");
-				Serial.print(Object_Param::freqCh3PWM);
+				Serial.print(atObject_Param.freqCh3PWM);
 				Serial.println(" Hz. Setting to default 5000 Hz. Frequency must be between 1 and 20000 Hz.");
 			}
-			Object_Param::freqCh3PWM = 5000;
+			atObject_Param.freqCh3PWM = 5000;
 		}
-		if (Object_Param::resolutionCh3PWM < 1 || Object_Param::resolutionCh3PWM > 14)
+		if (atObject_Param.resolutionCh3PWM < 1 || atObject_Param.resolutionCh3PWM > 14)
 		{
 			if (atApp_PWM.User_Mode == APP_USER_MODE_DEBUG)
 			{
 				Serial.print("Invalid resolution for Channel 3 PWM: ");
-				Serial.print(Object_Param::resolutionCh3PWM);
+				Serial.print(atObject_Param.resolutionCh3PWM);
 				Serial.println(" bits. Setting to default 8 bits. Resolution must be between 1 and 14 bits.");
 			}
-			Object_Param::resolutionCh3PWM = 8;
+			atObject_Param.resolutionCh3PWM = 8;
 		}
-		ledcSetup(2, Object_Param::freqCh3PWM, Object_Param::resolutionCh3PWM);
+		ledcSetup(2, atObject_Param.freqCh3PWM, atObject_Param.resolutionCh3PWM);
 		ledcAttachPin(P3_PWM, 2);
-		ledcWrite(2, (uint32_t)(Object_Param::dutyCycleCh3PWM * ((1 << Object_Param::resolutionCh3PWM) - 1) / 100));
+		ledcWrite(2, (uint32_t)(atObject_Param.dutyCycleCh3PWM * ((1 << atObject_Param.resolutionCh3PWM) - 1) / 100));
 		if (atApp_PWM.User_Mode == APP_USER_MODE_DEBUG)
 		{
 			Serial.print("Channel 3 PWM started with frequency: ");
-			Serial.print(Object_Param::freqCh3PWM);
+			Serial.print(atObject_Param.freqCh3PWM);
 			Serial.print(" Hz, resolution: ");
-			Serial.print(Object_Param::resolutionCh3PWM);
+			Serial.print(atObject_Param.resolutionCh3PWM);
 			Serial.println(" bits.");
 		}
 		break;
 	case 4:
-		if (Object_Param::freqCh4PWM < 1 || Object_Param::freqCh4PWM > 20000)
+		if (atObject_Param.freqCh4PWM < 1 || atObject_Param.freqCh4PWM > 20000)
 		{
 			if (atApp_PWM.User_Mode == APP_USER_MODE_DEBUG)
 			{
 				Serial.print("Invalid frequency for Channel 4 PWM: ");
-				Serial.print(Object_Param::freqCh4PWM);
+				Serial.print(atObject_Param.freqCh4PWM);
 				Serial.println(" Hz. Setting to default 5000 Hz. Frequency must be between 1 and 20000 Hz.");
 			}
-			Object_Param::freqCh4PWM = 5000;
+			atObject_Param.freqCh4PWM = 5000;
 		}
-		if (Object_Param::resolutionCh4PWM < 1 || Object_Param::resolutionCh4PWM > 14)
+		if (atObject_Param.resolutionCh4PWM < 1 || atObject_Param.resolutionCh4PWM > 14)
 		{
 			if (atApp_PWM.User_Mode == APP_USER_MODE_DEBUG)
 			{
 				Serial.print("Invalid resolution for Channel 4 PWM: ");
-				Serial.print(Object_Param::resolutionCh4PWM);
+				Serial.print(atObject_Param.resolutionCh4PWM);
 				Serial.println(" bits. Setting to default 8 bits. Resolution must be between 1 and 14 bits.");
 			}
-			Object_Param::resolutionCh4PWM = 8;
+			atObject_Param.resolutionCh4PWM = 8;
 		}
-		ledcSetup(3, Object_Param::freqCh4PWM, Object_Param::resolutionCh4PWM);
+		ledcSetup(3, atObject_Param.freqCh4PWM, atObject_Param.resolutionCh4PWM);
 		ledcAttachPin(P4_PWM, 3);
-		ledcWrite(3, (uint32_t)(Object_Param::dutyCycleCh4PWM * ((1 << Object_Param::resolutionCh4PWM) - 1) / 100));
+		ledcWrite(3, (uint32_t)(atObject_Param.dutyCycleCh4PWM * ((1 << atObject_Param.resolutionCh4PWM) - 1) / 100));
 		if (atApp_PWM.User_Mode == APP_USER_MODE_DEBUG)
 		{
 			Serial.print("Channel 4 PWM started with frequency: ");
-			Serial.print(Object_Param::freqCh4PWM);
+			Serial.print(atObject_Param.freqCh4PWM);
 			Serial.print(" Hz, resolution: ");
-			Serial.print(Object_Param::resolutionCh4PWM);
+			Serial.print(atObject_Param.resolutionCh4PWM);
 			Serial.println(" bits.");
 		}
 		break;

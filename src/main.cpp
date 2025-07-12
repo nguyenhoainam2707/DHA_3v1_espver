@@ -50,13 +50,13 @@ void setup()
   // --------------------------------------------Tasks table--------------------------------------------//
   // ---------------------------------------------------------------------------------------------------//
   // || Creation  ||  Task function ||  PC name ||  Heap size ||  Parameter ||  Priority  ||  Task handle ||  CoreID  ||
+  // xTaskCreatePinnedToCore(atApp_Database_Task_Func, "atApp_Database_Application", 2048, NULL, 1, &Task_atApp_Database, 1);
   // xTaskCreatePinnedToCore(atApp_CP_Task_Func, "atApp_CP_Application", 2048, NULL, 1, &Task_atApp_CP, 1);
   // xTaskCreatePinnedToCore(atApp_MQTT_PUB_Task_Func, "atApp_MQTT_PUB_Application", 2048, NULL, 1, &Task_atApp_MQTT_PUB, 1);
   // xTaskCreatePinnedToCore(atApp_MQTT_SUB_Task_Func, "atApp_MQTT_SUB_Application", 2048, NULL, 1, &Task_atApp_MQTT_SUB, 1);
   // xTaskCreatePinnedToCore(atApp_FTP_Task_Func, "atApp_FTP_Application", 2048, NULL, 1, &Task_atApp_FTP, 1);
   // xTaskCreatePinnedToCore(atApp_AP_Task_Func, "atApp_AP_Application", 2048, NULL, 1, &Task_atApp_AP, 1);
   // xTaskCreatePinnedToCore(atApp_AI_Task_Func, "atApp_AI_Application", 2048, NULL, 1, &Task_atApp_AI, 1);
-  // xTaskCreatePinnedToCore(atApp_Database_Task_Func, "atApp_Database_Application", 2048, NULL, 1, &Task_atApp_Database, 1);
   xTaskCreatePinnedToCore(atApp_DI_Task_Func, "atApp_DI_Application", 2048, NULL, 1, &Task_atApp_DI, 1);
   // xTaskCreatePinnedToCore(atApp_GPS_Task_Func, "atApp_GPS_Application", 2048, NULL, 1, &Task_atApp_GPS, 1);
   // xTaskCreatePinnedToCore(atApp_LED_Task_Func, "atApp_LED_Application", 2048, NULL, 1, &Task_atApp_LED, 1);
