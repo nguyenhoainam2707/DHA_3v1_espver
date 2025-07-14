@@ -70,7 +70,8 @@ void  App_LED::App_LED_Pend()
 void  App_LED::App_LED_Start()
 {
 	// init atPCF8574 Service in the fist running time
-	// atService_PCF8574.Run_Service();
+	atService_PCF8574.Run_Service();
+	
 }  
 /**
  * Restart function of SNM  app

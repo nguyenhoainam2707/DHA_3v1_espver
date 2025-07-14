@@ -43,6 +43,8 @@ public:
     bool ch3DI = false;
     bool ch4DI = false;
 
+    uint16_t waterLevel = 0; // Water level data
+
 
     Object_Data(/* args */);
     ~Object_Data();

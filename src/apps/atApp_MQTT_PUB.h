@@ -6,7 +6,7 @@
 #include "../src/obj/atObj_Param.h"
 #include "../src/obj/atObj_Data.h"
 /* _____DEFINITIONS__________________________________________________________ */
-#define MQTT_PUB_TOPIC "esp32s3/adc"
+#define MQTT_PUB_TOPIC "esp32s3/testTopicDHA" // MQTT topic for publishing water level data
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 TaskHandle_t Task_atApp_MQTT_PUB;
 void atApp_MQTT_PUB_Task_Func(void *parameter);
@@ -129,9 +129,10 @@ void App_MQTT_PUB::App_MQTT_PUB_Execute()
 		}
 		if (atObject_Param.enVolAI)
 		{
-			payload += "\"AI4 Voltage\":" + String(atObject_Data.ch4Voltage, 4) + "}";
+			payload += "\"AI4 Voltage\":" + String(atObject_Data.ch4Voltage, 4) + ",";
 		}
 	}
+	payload += "\"" + atObject_Param.sensorName + "\":" + String(atObject_Data.waterLevel) + "}";
 	Service_EG800K::publishMQTTData(payload, MQTT_PUB_TOPIC);
 }
 void App_MQTT_PUB::App_MQTT_PUB_Suspend() {}

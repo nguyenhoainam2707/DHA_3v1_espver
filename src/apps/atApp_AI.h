@@ -75,6 +75,7 @@ void App_AI::App_AI_Pend()
  */
 void App_AI::App_AI_Start()
 {
+	atService_ADS1115.Run_Service();
 	/*
 	|      Gain       |        Voltage Range       |        	  Data rate                 |
 	|-----------------|----------------------------|----------------------------------------|
@@ -219,6 +220,13 @@ void App_AI::App_AI_Execute()
 			}
 		}
 	}
+	if(atObject_Param.enCh1AI || atObject_Param.enCh2AI || atObject_Param.enCh3AI || atObject_Param.enCh4AI)
+	{
+		if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
+		{
+			Serial.println("--------------------------------------------------");
+		}
+	}
 }
 void App_AI::App_AI_Suspend() {}
 void App_AI::App_AI_Resume() {}
@@ -228,7 +236,7 @@ void atApp_AI_Task_Func(void *parameter)
 	while (1)
 	{
 		atApp_AI.Run_Application(APP_RUN_MODE_AUTO);
-		vTaskDelay(300 / portTICK_PERIOD_MS);
+		vTaskDelay(1000 / portTICK_PERIOD_MS);
 	}
 }
 #endif

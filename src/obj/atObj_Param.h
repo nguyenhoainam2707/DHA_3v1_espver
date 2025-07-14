@@ -23,23 +23,23 @@ public:
     static void Object_Param_End();
 
     // Enable AI channels
-    bool enCh1AI = true;
-    bool enCh2AI = true;
-    bool enCh3AI = true;
-    bool enCh4AI = true;
-    bool enRawAI = true;
-    bool enVolAI = true;
+    bool enCh1AI = false;
+    bool enCh2AI = false;
+    bool enCh3AI = false;
+    bool enCh4AI = false;
+    bool enRawAI = false;
+    bool enVolAI = false;
     // Enable DI channels
-    bool enCh1DI = true;
-    bool enCh2DI = true;
-    bool enCh3DI = true;
-    bool enCh4DI = true;
-    uint32_t delayDI = 100; // Default delay for DI channels in milliseconds
+    bool enCh1DI = false;
+    bool enCh2DI = false;
+    bool enCh3DI = false;
+    bool enCh4DI = false;
+    uint32_t delayDI = 1000; // Default delay for DI channels in milliseconds
     //Enable PWM channels
-    bool enCh1PWM = true;
-    bool enCh2PWM = true;
-    bool enCh3PWM = true;
-    bool enCh4PWM = true;
+    bool enCh1PWM = false;
+    bool enCh2PWM = false;
+    bool enCh3PWM = false;
+    bool enCh4PWM = false;
     uint32_t freqCh1PWM = 5000; // Default frequency for PWM channels in Hz
     uint32_t freqCh2PWM = 5000; // Default frequency for PWM channels in Hz
     uint32_t freqCh3PWM = 5000; // Default frequency for PWM channels in Hz
@@ -52,6 +52,8 @@ public:
     float dutyCycleCh2PWM = 50.00; // Default duty cycle for PWM channels (50%)
     float dutyCycleCh3PWM = 50.00; // Default duty cycle for PWM channels (50%)
     float dutyCycleCh4PWM = 50.00; // Default duty cycle for PWM channels (50%)
+
+    String sensorName = "Water level sensor"; // Default sensor name
 
     Object_Param(/* args */);
     ~Object_Param();

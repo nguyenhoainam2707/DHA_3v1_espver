@@ -3,14 +3,15 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "Service.h"
 #include <PCF8574.h>
+#include "../src/services/protocols/atService_I2C.h"
 /* _____DEFINETIONS__________________________________________________________ */
 #define PCF_ADDR 0x20 // PCF8574 I2C address
-#ifndef SDA_PIN
-#define SDA_PIN 48 // Default SDA pin
-#endif
-#ifndef SCL_PIN
-#define SCL_PIN 45 // Default SCL pin
-#endif
+// #ifndef SDA_PIN
+// #define SDA_PIN 48 // Default SDA pin
+// #endif
+// #ifndef SCL_PIN
+// #define SCL_PIN 45 // Default SCL pin
+// #endif
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____GLOBAL FUNCTION______________________________________________________ */
@@ -62,6 +63,8 @@ Service_PCF8574::~Service_PCF8574()
  */
 void Service_PCF8574::Service_PCF8574_Start()
 {
+    atService_I2C.Run_Service();
+    atService_I2C.checkIn(); // Ensure I2C bus is ready
     Wire.begin(SDA_PIN, SCL_PIN);
     pcf.pinMode(P2, OUTPUT);
     pcf.pinMode(P3, OUTPUT);
@@ -108,55 +111,57 @@ void Service_PCF8574::Service_PCF8574_Start()
     }
     pcf.digitalWrite(P2, HIGH); // Set P2 to HIGH
     pcf.digitalWrite(P3, HIGH); // Set P3 to HIGH
+    atService_I2C.checkOut();   // Release I2C bus access
 }
-
-/**
- * Execute fuction of SNM app
- */
 void Service_PCF8574::Service_PCF8574_Execute()
 {
-    // if (atService_PCF8574.User_Mode == SER_USER_MODE_DEBUG)
-    // {
-    // }
 }
 void Service_PCF8574::Service_PCF8574_End()
 {
-    // if (atService_PCF8574.User_Mode == SER_USER_MODE_DEBUG)
-    // {
-    //     Serial.println("PCF8574 Service ended.");
-    // }
-    vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay 1 second before ending
 }
 void Service_PCF8574::blinkLED(uint8_t ledPin, uint16_t delayTime)
 {
+    atService_I2C.checkIn();       // Ensure I2C bus is ready
     pcf.digitalWrite(ledPin, LOW); // Turn on the LED
+    atService_I2C.checkOut();      // Release I2C bus access
     vTaskDelay(delayTime / portTICK_PERIOD_MS);
+    atService_I2C.checkIn();        // Ensure I2C bus is ready
     pcf.digitalWrite(ledPin, HIGH); // Turn off the LED
+    atService_I2C.checkOut();       // Release I2C bus access
     vTaskDelay(delayTime / portTICK_PERIOD_MS);
 }
 void Service_PCF8574::pcfDigitalWrite(uint8_t ledPin, bool value)
 {
+    atService_I2C.checkIn();          // Ensure I2C bus is ready
     pcf.digitalWrite(ledPin, !value); // Write HIGH for ON and LOW for OFF
+    atService_I2C.checkOut();         // Release I2C bus access
 }
 bool Service_PCF8574::pcfDigitalRead(uint8_t pin)
 {
-    switch(pin)
+    bool state = false;
+    atService_I2C.checkIn(); // Ensure I2C bus is ready
+    switch (pin)
     {
-        case 1:
-            return pcf.digitalRead(P4);
-        case 2:
-            return pcf.digitalRead(P5);
-        case 3:
-            return pcf.digitalRead(P6);
-        case 4:
-            return pcf.digitalRead(P7);
-        default:
-            if(atService_PCF8574.User_Mode == SER_USER_MODE_DEBUG)
-            {
-                Serial.println("Reading state of unknown pin!");
-            }
-            return false; // Return false for unknown pins
+    case 1:
+        state = pcf.digitalRead(P4);
+        break;
+    case 2:
+        state = pcf.digitalRead(P5);
+        break;
+    case 3:
+        state = pcf.digitalRead(P6);
+        break;
+    case 4:
+        state = pcf.digitalRead(P7);
+        break;
+    default:
+        if (atService_PCF8574.User_Mode == SER_USER_MODE_DEBUG)
+        {
+            Serial.println("Reading state of unknown pin!");
+        }
     }
+    atService_I2C.checkOut(); // Release I2C bus access
+    return state;
 }
 
 #endif

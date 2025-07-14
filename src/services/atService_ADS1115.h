@@ -3,15 +3,16 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "Service.h"
 #include <Adafruit_ADS1X15.h>
+#include "../src/services/protocols/atService_I2C.h"
 /* _____DEFINETIONS__________________________________________________________ */
-#ifndef SDA_PIN
-#define SDA_PIN 48 // Default SDA pin
-#endif
-#ifndef SCL_PIN
-#define SCL_PIN 45 // Default SCL pin
-#endif
+#define ADS1115_ADDRESS 0x48 // Default I2C address for ADS1115
+// #ifndef SDA_PIN
+// #define SDA_PIN 48 // Default SDA pin
+// #endif
+// #ifndef SCL_PIN
+// #define SCL_PIN 45 // Default SCL pin
+// #endif
 /* _____GLOBAL VARIABLES_____________________________________________________ */
-
 /* _____GLOBAL FUNCTION______________________________________________________ */
 
 /* _____CLASS DEFINITION_____________________________________________________ */
@@ -27,8 +28,8 @@ public:
     ~Service_ADS1115();
 
     static bool ADS1115_Init(adsGain_t gain, uint16_t rate);
-    int16_t ADS1115_readAI(uint8_t channel);
-    float ADS1115_readAI_Voltage(uint8_t channel);
+    static int16_t ADS1115_readAI(uint8_t channel);
+    static float ADS1115_readAI_Voltage(uint8_t channel);
 protected:
 private:
     static void Service_ADS1115_Start();
@@ -59,7 +60,9 @@ Service_ADS1115::~Service_ADS1115()
 /**
  * This start function will init some critical function
  */
-void Service_ADS1115::Service_ADS1115_Start() {}
+void Service_ADS1115::Service_ADS1115_Start() {
+    atService_I2C.Run_Service();
+}
 /**
  * Execute fuction of SNM app
  */
@@ -69,20 +72,30 @@ void Service_ADS1115::Service_ADS1115_End() {}
 
 bool Service_ADS1115::ADS1115_Init(adsGain_t gain, uint16_t rate)
 {
+    atService_I2C.checkIn(); // Ensure I2C bus is ready
     Wire.begin(SDA_PIN, SCL_PIN);
-    ads.begin(); // Lưu ý hàm này nếu không tìm được thiết bị giao tiếp I2C sẽ bị treo khoảng 2 giây.
-    if (!ads.begin())
+    ads.begin(ADS1115_ADDRESS); // Lưu ý hàm này nếu không tìm được thiết bị giao tiếp I2C sẽ bị treo khoảng 2 giây.
+    if (!ads.begin(ADS1115_ADDRESS)){
+        atService_I2C.checkOut(); // Release I2C bus access
         return false; // Check if the ADS1115 is connected
+    }
     ads.setGain(gain);
     ads.setDataRate(rate);
+    atService_I2C.checkOut(); // Release I2C bus access
     return true;
 }
 int16_t Service_ADS1115::ADS1115_readAI(uint8_t channel)
 {
-    return ads.readADC_SingleEnded(channel);
+    atService_I2C.checkIn(); // Ensure I2C bus is ready
+    int16_t value = ads.readADC_SingleEnded(channel);
+    atService_I2C.checkOut();
+    return value;
 }
 float Service_ADS1115::ADS1115_readAI_Voltage(uint8_t channel)
 {
-    return ads.computeVolts(ads.readADC_SingleEnded(channel));
+    atService_I2C.checkIn(); // Ensure I2C bus is ready
+    float voltage = ads.computeVolts(ads.readADC_SingleEnded(channel));
+    atService_I2C.checkOut();
+    return voltage;
 }
 #endif
