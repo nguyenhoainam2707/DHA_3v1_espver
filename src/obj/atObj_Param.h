@@ -23,17 +23,19 @@ public:
     static void Object_Param_End();
 
     // Enable AI channels
-    bool enCh1AI = false;
-    bool enCh2AI = false;
-    bool enCh3AI = false;
-    bool enCh4AI = false;
-    bool enRawAI = false;
-    bool enVolAI = false;
+    bool enCh1AI = true;
+    bool enCh2AI = true;
+    bool enCh3AI = true;
+    bool enCh4AI = true;
+    bool enRawAI = true;
+    bool enCurAI = true;
+    uint32_t refreshRateAI = 1000; // Default refresh rate for AI channels in milliseconds
     // Enable DI channels
     bool enCh1DI = false;
     bool enCh2DI = false;
     bool enCh3DI = false;
     bool enCh4DI = false;
+    uint32_t refreshRateDI = 1000; // Default refresh rate for DI channels in milliseconds
     uint32_t delayDI = 1000; // Default delay for DI channels in milliseconds
     //Enable PWM channels
     bool enCh1PWM = false;
@@ -53,7 +55,41 @@ public:
     float dutyCycleCh3PWM = 50.00; // Default duty cycle for PWM channels (50%)
     float dutyCycleCh4PWM = 50.00; // Default duty cycle for PWM channels (50%)
 
-    String sensorName = "Water level sensor"; // Default sensor name
+    //Parameters for LCD
+    bool enLCD = false; // Enable LCD
+    bool enLCDBacklight = true; // Enable LCD backlight
+    uint32_t refreshRateLCD = 500; // Default refresh rate for LCD in milliseconds
+
+    // Enable Modbus RTU
+    bool enMB1 = false;
+    bool enMB2 = false;
+    uint32_t baudRateMB1 = 9600; // Default baud rate for Modbus RTU
+    uint32_t baudRateMB2 = 9600;
+    uint8_t slaveIDMB1 = 1; // Default slave ID for Modbus RTU
+    uint8_t slaveIDMB2 = 1; // Default slave ID for Modbus RTU
+    uint8_t functionCodeMB1 = 3; // Default function code for Modbus RTU
+    uint8_t functionCodeMB2 = 3;
+    uint16_t startAddressMB1 = 0; // Default start address for Modbus RTU
+    uint16_t startAddressMB2 = 0;
+    uint16_t numRegistersMB1 = 1; // Default number of registers for Modbus RTU
+    uint16_t numRegistersMB2 = 1; // Default number of registers for Modbus RTU
+    String sensorNameMB1 = "Sensor 1"; // Default sensor name
+    String sensorNameMB2 = "Sensor 2"; // Default sensor name
+    uint32_t refreshRateMB1 = 1000; // Default refresh rate for Modbus RTU in milliseconds
+    uint32_t refreshRateMB2 = 1000; // Default refresh rate for Modbus RTU in milliseconds
+
+    //Parameters for MQTT_PUB
+    bool enMQTTPUB = true;
+    uint32_t refreshRateMQTTPUB = 5000; // Default refresh rate for MQTT_PUB in milliseconds
+    String mqttBroker = "broker.emqx.io"; // Default MQTT server
+    uint16_t mqttPort = 1883; // Default MQTT port
+    String mqttClientID = "esp32s3-client"; // Default MQTT client ID
+    String mqttPubTopic = "esp32s3/data";
+
+    //Parameters for MQTT_SUB
+    bool enMQTTSUB = false;
+    uint32_t refreshRateMQTTSUB = 5000; // Default refresh rate for MQTT_SUB in milliseconds
+    String mqttSubTopic = "esp32s3/command";
 
     Object_Param(/* args */);
     ~Object_Param();

@@ -88,7 +88,7 @@ void App_AI::App_AI_Start()
 	|                 |                            | RATE_ADS1115_475SPS : 475 samples/sec  |
 	|                 |                            | RATE_ADS1115_860SPS : 860 samples/sec  |
 	*/
-	ads1115InitOke = Service_ADS1115::ADS1115_Init(GAIN_TWOTHIRDS, RATE_ADS1115_8SPS);
+	ads1115InitOke = Service_ADS1115::ADS1115_Init(GAIN_TWO, RATE_ADS1115_8SPS);
 	if (ads1115InitOke)
 	{
 		if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
@@ -154,12 +154,12 @@ void App_AI::App_AI_Execute()
 				Serial.println("CH1: AI raw data: " + String(atObject_Data.ch1RawData));
 			}
 		}
-		if (atObject_Param.enVolAI)
+		if (atObject_Param.enCurAI)
 		{
-			atObject_Data.ch1Voltage = atService_ADS1115.ADS1115_readAI_Voltage(0);
+			atObject_Data.ch1Current = atService_ADS1115.ADS1115_readAI_Current(0);
 			if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH1: Voltage: " + String(atObject_Data.ch1Voltage, 4) + " V");
+				Serial.println("CH1: Current: " + String(atObject_Data.ch1Current, 4) + " mA");
 			}
 		}
 	}
@@ -173,12 +173,12 @@ void App_AI::App_AI_Execute()
 				Serial.println("CH2: AI raw data: " + String(atObject_Data.ch2RawData));
 			}
 		}
-		if (atObject_Param.enVolAI)
+		if (atObject_Param.enCurAI)
 		{
-			atObject_Data.ch2Voltage = atService_ADS1115.ADS1115_readAI_Voltage(1);
+			atObject_Data.ch2Current = atService_ADS1115.ADS1115_readAI_Current(1);
 			if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH2: Voltage: " + String(atObject_Data.ch2Voltage, 4) + " V");
+				Serial.println("CH2: Current: " + String(atObject_Data.ch2Current, 4) + " mA");
 			}
 		}
 	}
@@ -192,12 +192,12 @@ void App_AI::App_AI_Execute()
 				Serial.println("CH3: AI raw data: " + String(atObject_Data.ch3RawData));
 			}
 		}
-		if (atObject_Param.enVolAI)
+		if (atObject_Param.enCurAI)
 		{
-			atObject_Data.ch3Voltage = atService_ADS1115.ADS1115_readAI_Voltage(2);
+			atObject_Data.ch3Current = atService_ADS1115.ADS1115_readAI_Current(2);
 			if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH3: Voltage: " + String(atObject_Data.ch3Voltage, 4) + " V");
+				Serial.println("CH3: Current: " + String(atObject_Data.ch3Current, 4) + " mA");
 			}
 		}
 	}
@@ -211,12 +211,12 @@ void App_AI::App_AI_Execute()
 				Serial.println("CH4: AI raw data: " + String(atObject_Data.ch4RawData));
 			}
 		}
-		if (atObject_Param.enVolAI)
+		if (atObject_Param.enCurAI)
 		{
-			atObject_Data.ch4Voltage = atService_ADS1115.ADS1115_readAI_Voltage(3);
+			atObject_Data.ch4Current = atService_ADS1115.ADS1115_readAI_Current(3);
 			if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
 			{
-				Serial.println("CH4: Voltage: " + String(atObject_Data.ch4Voltage, 4) + " V");
+				Serial.println("CH4: Current: " + String(atObject_Data.ch4Current, 4) + " mA");
 			}
 		}
 	}
@@ -236,7 +236,7 @@ void atApp_AI_Task_Func(void *parameter)
 	while (1)
 	{
 		atApp_AI.Run_Application(APP_RUN_MODE_AUTO);
-		vTaskDelay(1000 / portTICK_PERIOD_MS);
+		vTaskDelay(300 / portTICK_PERIOD_MS);
 	}
 }
 #endif

@@ -22,7 +22,7 @@ void setup()
   // atApp_MQTT_PUB.Debug();
   // atApp_MQTT_SUB.Debug();
   // atApp_FTP.Debug();
-  atApp_AI.Debug();
+  // atApp_AI.Debug();
   // atApp_AP.Debug();
   // atApp_CP.Debug();
   // atApp_Database.Debug();
@@ -32,8 +32,8 @@ void setup()
   // atApp_MB.Debug();
   // atApp_PWM.Debug();
   // Uncomment to put the service in debug mode
-  // atService_EG800K.Debug();
-  atService_ADS1115.Debug();
+  atService_EG800K.Debug();
+  // atService_ADS1115.Debug();
   // atService_PCF8574.Debug();
   // atService_Modbus.Debug();
 

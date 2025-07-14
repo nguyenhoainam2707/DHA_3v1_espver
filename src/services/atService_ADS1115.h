@@ -30,6 +30,7 @@ public:
     static bool ADS1115_Init(adsGain_t gain, uint16_t rate);
     static int16_t ADS1115_readAI(uint8_t channel);
     static float ADS1115_readAI_Voltage(uint8_t channel);
+    static float ADS1115_readAI_Current(uint8_t channel);
 protected:
 private:
     static void Service_ADS1115_Start();
@@ -60,7 +61,8 @@ Service_ADS1115::~Service_ADS1115()
 /**
  * This start function will init some critical function
  */
-void Service_ADS1115::Service_ADS1115_Start() {
+void Service_ADS1115::Service_ADS1115_Start()
+{
     atService_I2C.Run_Service();
 }
 /**
@@ -75,9 +77,10 @@ bool Service_ADS1115::ADS1115_Init(adsGain_t gain, uint16_t rate)
     atService_I2C.checkIn(); // Ensure I2C bus is ready
     Wire.begin(SDA_PIN, SCL_PIN);
     ads.begin(ADS1115_ADDRESS); // Lưu ý hàm này nếu không tìm được thiết bị giao tiếp I2C sẽ bị treo khoảng 2 giây.
-    if (!ads.begin(ADS1115_ADDRESS)){
+    if (!ads.begin(ADS1115_ADDRESS))
+    {
         atService_I2C.checkOut(); // Release I2C bus access
-        return false; // Check if the ADS1115 is connected
+        return false;             // Check if the ADS1115 is connected
     }
     ads.setGain(gain);
     ads.setDataRate(rate);
@@ -97,5 +100,13 @@ float Service_ADS1115::ADS1115_readAI_Voltage(uint8_t channel)
     float voltage = ads.computeVolts(ads.readADC_SingleEnded(channel));
     atService_I2C.checkOut();
     return voltage;
+}
+float Service_ADS1115::ADS1115_readAI_Current(uint8_t channel)
+{
+    atService_I2C.checkIn(); // Ensure I2C bus is ready
+    float voltage = ads.computeVolts(ads.readADC_SingleEnded(channel));
+    atService_I2C.checkOut();
+    // Assuming a 1 Ohm shunt resistor for current measurement
+    return voltage * 10; // Current in milliamperes (V = I * R, where R = 100 Ohm)
 }
 #endif
