@@ -138,7 +138,7 @@ void atApp_DI_Task_Func(void *parameter)
 	while (1)
 	{
 		atApp_DI.Run_Application(APP_RUN_MODE_AUTO);
-		vTaskDelay(atObject_Param.delayDI / portTICK_PERIOD_MS);
+		vTaskDelay(atObject_Param.refreshRateDI / portTICK_PERIOD_MS);
 	}
 }
 #endif

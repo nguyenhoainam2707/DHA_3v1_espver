@@ -36,7 +36,6 @@ public:
     bool enCh3DI = false;
     bool enCh4DI = false;
     uint32_t refreshRateDI = 1000; // Default refresh rate for DI channels in milliseconds
-    uint32_t delayDI = 1000; // Default delay for DI channels in milliseconds
     //Enable PWM channels
     bool enCh1PWM = false;
     bool enCh2PWM = false;

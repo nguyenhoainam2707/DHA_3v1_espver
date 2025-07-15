@@ -86,7 +86,6 @@ void App_AP::setDefaultConfig()
 	atObject_Param.enCh3DI = false;
 	atObject_Param.enCh4DI = false;
 	atObject_Param.refreshRateDI = 1000;
-	atObject_Param.delayDI = 1000;
 
 	// PWM channels
 	atObject_Param.enCh1PWM = false;
@@ -162,7 +161,6 @@ void App_AP::loadConfig()
 	atObject_Param.enCh3DI = preferences.getBool("enCh3DI", atObject_Param.enCh3DI);
 	atObject_Param.enCh4DI = preferences.getBool("enCh4DI", atObject_Param.enCh4DI);
 	atObject_Param.refreshRateDI = preferences.getUInt("refreshRateDI", atObject_Param.refreshRateDI);
-	atObject_Param.delayDI = preferences.getUInt("delayDI", atObject_Param.delayDI);
 
 	// PWM channels
 	atObject_Param.enCh1PWM = preferences.getBool("enCh1PWM", atObject_Param.enCh1PWM);
@@ -241,7 +239,6 @@ void App_AP::saveConfig()
 	preferences.putBool("enCh3DI", atObject_Param.enCh3DI);
 	preferences.putBool("enCh4DI", atObject_Param.enCh4DI);
 	preferences.putUInt("refreshRateDI", atObject_Param.refreshRateDI);
-	preferences.putUInt("delayDI", atObject_Param.delayDI);
 
 	// PWM channels
 	preferences.putBool("enCh1PWM", atObject_Param.enCh1PWM);
@@ -526,16 +523,10 @@ void App_AP::handleRoot()
                         <label for="enCh4DI">Enable Channel 4</label>
                     </div>
                 </div>
-                <div class="grid-2">
                     <div class="form-group">
                         <label for="refreshRateDI">Refresh Rate (ms)</label>
                         <input type="number" id="refreshRateDI" name="refreshRateDI" value="%refreshRateDI%" min="100" step="100">
                     </div>
-                    <div class="form-group">
-                        <label for="delayDI">Delay (ms)</label>
-                        <input type="number" id="delayDI" name="delayDI" value="%delayDI%" min="0" step="10">
-                    </div>
-                </div>
             </div>
             
             <!-- PWM Section -->
@@ -804,7 +795,6 @@ void App_AP::handleRoot()
 	html.replace("%enCh3DI%", atObject_Param.enCh3DI ? "checked" : "");
 	html.replace("%enCh4DI%", atObject_Param.enCh4DI ? "checked" : "");
 	html.replace("%refreshRateDI%", String(atObject_Param.refreshRateDI));
-	html.replace("%delayDI%", String(atObject_Param.delayDI));
 
 	// PWM
 	html.replace("%enCh1PWM%", atObject_Param.enCh1PWM ? "checked" : "");
@@ -882,7 +872,6 @@ void App_AP::handleSave()
 	atObject_Param.enCh3DI = server.hasArg("enCh3DI");
 	atObject_Param.enCh4DI = server.hasArg("enCh4DI");
 	atObject_Param.refreshRateDI = server.arg("refreshRateDI").toInt();
-	atObject_Param.delayDI = server.arg("delayDI").toInt();
 
 	// PWM channels
 	atObject_Param.enCh1PWM = server.hasArg("enCh1PWM");
