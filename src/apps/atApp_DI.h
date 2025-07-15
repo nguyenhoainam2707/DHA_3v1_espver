@@ -71,6 +71,7 @@ void App_DI::App_DI_Pend()
 void App_DI::App_DI_Start()
 {
 	// init atPCF8574 Service in the fist running time
+	atService_I2C.Run_Service();
 	atService_PCF8574.Run_Service();
 }
 /**

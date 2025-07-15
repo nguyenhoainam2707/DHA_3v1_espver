@@ -29,10 +29,10 @@ public:
     static void Object_Data_Execute();
     static void Object_Data_End();
     //Data of ADC channels
-    float ch1Voltage = 0.0f;
-    float ch2Voltage = 0.0f;
-    float ch3Voltage = 0.0f;
-    float ch4Voltage = 0.0f;
+    float ch1Current = 0.0f;
+    float ch2Current = 0.0f;
+    float ch3Current = 0.0f;
+    float ch4Current = 0.0f;
     uint16_t ch1RawData = 0;
     uint16_t ch2RawData = 0;
     uint16_t ch3RawData = 0;
@@ -42,6 +42,8 @@ public:
     bool ch2DI = false;
     bool ch3DI = false;
     bool ch4DI = false;
+
+    uint16_t waterLevel = 0; // Water level data
 
 
     Object_Data(/* args */);

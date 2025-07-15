@@ -70,7 +70,7 @@ void  App_MB::App_MB_Pend()
 void  App_MB::App_MB_Start()
 {
 	// init atModbus Service in the fist running time
-	// atService_Modbus.Run_Service();
+	atService_Modbus.Run_Service();
 }  
 /**
  * Restart function of SNM  app
@@ -85,9 +85,11 @@ void  App_MB::App_MB_Restart()
 void  App_MB::App_MB_Execute()
 {	
 	// atService_Modbus.Run_Service();
+	atObject_Data.waterLevel = atService_Modbus.mbReadHoldingRegisters(4, 1);
     if(atApp_MB.User_Mode == APP_USER_MODE_DEBUG)
     {
-		
+		Serial.print("Water Level: ");
+		Serial.println(atObject_Data.waterLevel + " mm");
     }   
 }
 void  App_MB::App_MB_Suspend(){}
