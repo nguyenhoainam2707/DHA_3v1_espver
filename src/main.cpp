@@ -22,7 +22,7 @@ void setup()
   // atApp_MQTT_PUB.Debug();
   // atApp_MQTT_SUB.Debug();
   // atApp_FTP.Debug();
-  // atApp_AI.Debug();
+  atApp_AI.Debug();
   // atApp_AP.Debug();
   // atApp_CP.Debug();
   // atApp_Database.Debug();
@@ -32,7 +32,7 @@ void setup()
   // atApp_MB.Debug();
   // atApp_PWM.Debug();
   // Uncomment to put the service in debug mode
-  atService_EG800K.Debug();
+  // atService_EG800K.Debug();
   // atService_ADS1115.Debug();
   // atService_PCF8574.Debug();
   // atService_Modbus.Debug();
@@ -44,7 +44,7 @@ void setup()
   // xTaskCreatePinnedToCore(atApp_CP_Task_Func,       "atApp_CP_Application",       8192, NULL, 1, &Task_atApp_CP,        1);
   xTaskCreatePinnedToCore(atApp_MQTT_PUB_Task_Func, "atApp_MQTT_PUB_Application", 2048, NULL, 1, &Task_atApp_MQTT_PUB,  1);
   // xTaskCreatePinnedToCore(atApp_MQTT_SUB_Task_Func, "atApp_MQTT_SUB_Application", 2048, NULL, 1, &Task_atApp_MQTT_SUB,  1);
-  // xTaskCreatePinnedToCore(atApp_AP_Task_Func,       "atApp_AP_Application",       4096, NULL, 1, &Task_atApp_AP,        0);
+  xTaskCreatePinnedToCore(atApp_AP_Task_Func,       "atApp_AP_Application",       20000, NULL, 1, &Task_atApp_AP,        0);
   xTaskCreatePinnedToCore(atApp_AI_Task_Func,       "atApp_AI_Application",       2048, NULL, 1, &Task_atApp_AI,        1);
   // xTaskCreatePinnedToCore(atApp_DI_Task_Func,       "atApp_DI_Application",       2048, NULL, 1, &Task_atApp_DI,        1);
   // xTaskCreatePinnedToCore(atApp_LED_Task_Func,      "atApp_LED_Application",      2048, NULL, 1, &Task_atApp_LED,       1);
