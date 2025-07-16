@@ -6,6 +6,7 @@
 #include <WebServer.h>
 #include <Preferences.h>
 #include "../src/obj/atObj_Param.h"
+#include "../src/obj/atObj_Data.h"
 /* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */

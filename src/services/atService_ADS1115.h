@@ -6,12 +6,6 @@
 #include "../src/services/protocols/atService_I2C.h"
 /* _____DEFINETIONS__________________________________________________________ */
 #define ADS1115_ADDRESS 0x48 // Default I2C address for ADS1115
-// #ifndef SDA_PIN
-// #define SDA_PIN 48 // Default SDA pin
-// #endif
-// #ifndef SCL_PIN
-// #define SCL_PIN 45 // Default SCL pin
-// #endif
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 /* _____GLOBAL FUNCTION______________________________________________________ */
 
@@ -89,9 +83,9 @@ bool Service_ADS1115::ADS1115_Init(adsGain_t gain, uint16_t rate)
 }
 int16_t Service_ADS1115::ADS1115_readAI(uint8_t channel)
 {
-    atService_I2C.checkIn(); // Ensure I2C bus is ready
+    // atService_I2C.checkIn(); // Ensure I2C bus is ready
     int16_t value = ads.readADC_SingleEnded(channel);
-    atService_I2C.checkOut();
+    // atService_I2C.checkOut();
     return value;
 }
 float Service_ADS1115::ADS1115_readAI_Voltage(uint8_t channel)
@@ -103,9 +97,9 @@ float Service_ADS1115::ADS1115_readAI_Voltage(uint8_t channel)
 }
 float Service_ADS1115::ADS1115_readAI_Current(uint8_t channel)
 {
-    atService_I2C.checkIn(); // Ensure I2C bus is ready
+    // atService_I2C.checkIn(); // Ensure I2C bus is ready
     float voltage = ads.computeVolts(ads.readADC_SingleEnded(channel));
-    atService_I2C.checkOut();
+    // atService_I2C.checkOut();
     // Assuming a 1 Ohm shunt resistor for current measurement
     return voltage * 10; // Current in milliamperes (V = I * R, where R = 100 Ohm)
 }

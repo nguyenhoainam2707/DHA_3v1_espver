@@ -2,7 +2,6 @@
 #define _Service_atService_EG800K_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "Service.h"
-// #include "../src/obj/atObj_Value.h"
 /* _____DEFINETIONS__________________________________________________________ */
 #define EG800K_RX 44 // UART0
 #define EG800K_TX 43 // UART0

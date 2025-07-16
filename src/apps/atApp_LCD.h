@@ -3,6 +3,8 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "../services/atService_LCD1602.h"
+#include "../src/obj/atObj_Param.h"
+#include "../src/obj/atObj_Data.h"
 /* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */

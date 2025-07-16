@@ -29,7 +29,7 @@ public:
     bool enCh4AI = true;
     bool enRawAI = true;
     bool enCurAI = true;
-    uint32_t refreshRateAI = 1000; // Default refresh rate for AI channels in milliseconds
+    uint32_t refreshRateAI = 500; // Default refresh rate for AI channels in milliseconds
     // Enable DI channels
     bool enCh1DI = false;
     bool enCh2DI = false;

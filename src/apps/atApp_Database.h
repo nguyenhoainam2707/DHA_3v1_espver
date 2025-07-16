@@ -2,6 +2,8 @@
 #define _Application_atApp_Database_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
+#include "../src/obj/atObj_Param.h"
+#include "../src/obj/atObj_Data.h"
 #include <TimeLib.h>
 #include <Preferences.h>
 #include <FS.h>

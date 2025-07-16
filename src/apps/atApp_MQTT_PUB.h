@@ -149,7 +149,7 @@ void atApp_MQTT_PUB_Task_Func(void *parameter)
 	while (1)
 	{
 		atApp_MQTT_PUB.Run_Application(APP_RUN_MODE_AUTO);
-		vTaskDelay(10 / portTICK_PERIOD_MS);
+		vTaskDelay(1000 / portTICK_PERIOD_MS);
 	}
 }
 #endif

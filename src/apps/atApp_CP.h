@@ -2,7 +2,8 @@
 #define _Application_atApp_CP_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
-// #include "../services/atService_XYZ.h"
+#include "../src/obj/atObj_Param.h"
+#include "../src/obj/atObj_Data.h"
 /* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
