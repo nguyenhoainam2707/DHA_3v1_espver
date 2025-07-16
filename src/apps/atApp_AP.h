@@ -223,7 +223,7 @@ void App_AP::loadConfig()
 
 void App_AP::saveConfig()
 {
-	preferences.begin("config", false); // false: read-write
+	preferences.begin("config", false); // false: read-write // true: read only // namespace: "config"
 
 	// AI channels
 	preferences.putBool("enCh1AI", atObject_Param.enCh1AI);

@@ -23,8 +23,10 @@ public:
     Service_Modbus();
     ~Service_Modbus();
 
-    uint16_t mb1ReadHoldingRegisters(uint16_t u16ReadAddress);
-    uint16_t mb2ReadHoldingRegisters(uint16_t u16ReadAddress);
+    static void mb1Init();
+    static void mb2Init();
+    static uint16_t mb1ReadHoldingRegisters(uint16_t u16ReadAddress);
+    static uint16_t mb2ReadHoldingRegisters(uint16_t u16ReadAddress);
 
 protected:
 private:
@@ -56,29 +58,7 @@ Service_Modbus::~Service_Modbus()
 /**
  * This start function will init some critical function
  */
-void Service_Modbus::Service_Modbus_Start()
-{
-    if (atObject_Param.enMB1)
-    {
-        Serial1.begin(atObject_Param.baudRateMB1, SERIAL_8N1, MB1_RX_PIN, MB1_TX_PIN);
-        vTaskDelay(100 / portTICK_PERIOD_MS); // wait for serial to be ready
-        mb1.begin(atObject_Param.slaveIDMB1, Serial1);
-        if (atService_Modbus.User_Mode == SER_USER_MODE_DEBUG)
-        {
-            Serial.printf("Modbus RTU 1 over RS-485 ready!\nBaud rate: %d\n", atObject_Param.baudRateMB1);
-        }
-    }
-    if (atObject_Param.enMB2)
-    {
-        Serial2.begin(atObject_Param.baudRateMB2, SERIAL_8N1, MB2_RX_PIN, MB2_TX_PIN);
-        vTaskDelay(100 / portTICK_PERIOD_MS); // wait for serial to be ready
-        mb2.begin(atObject_Param.slaveIDMB2, Serial2);
-        if (atService_Modbus.User_Mode == SER_USER_MODE_DEBUG)
-        {
-            Serial.printf("Modbus RTU 2 over RS-485 ready!\nBaud rate: %d\n", atObject_Param.baudRateMB2);
-        }
-    }
-}
+void Service_Modbus::Service_Modbus_Start() {}
 
 /**
  * Execute fuction of SNM app
@@ -90,6 +70,28 @@ void Service_Modbus::Service_Modbus_Execute()
     // }
 }
 void Service_Modbus::Service_Modbus_End() {}
+
+void Service_Modbus::mb1Init()
+{
+    Serial1.begin(atObject_Param.baudRateMB1, SERIAL_8N1, MB1_RX_PIN, MB1_TX_PIN);
+    vTaskDelay(100 / portTICK_PERIOD_MS); // wait for serial to be ready
+    mb1.begin(atObject_Param.slaveIDMB1, Serial1);
+    if (atService_Modbus.User_Mode == SER_USER_MODE_DEBUG)
+    {
+        Serial.printf("Modbus RTU 1 over RS-485 ready!\nBaud rate: %d\n", atObject_Param.baudRateMB1);
+    }
+}
+
+void Service_Modbus::mb2Init()
+{
+    Serial2.begin(atObject_Param.baudRateMB2, SERIAL_8N1, MB2_RX_PIN, MB2_TX_PIN);
+    vTaskDelay(100 / portTICK_PERIOD_MS); // wait for serial to be ready
+    mb2.begin(atObject_Param.slaveIDMB2, Serial2);
+    if (atService_Modbus.User_Mode == SER_USER_MODE_DEBUG)
+    {
+        Serial.printf("Modbus RTU 2 over RS-485 ready!\nBaud rate: %d\n", atObject_Param.baudRateMB2);
+    }
+}
 
 uint16_t Service_Modbus::mb1ReadHoldingRegisters(uint16_t u16ReadAddress)
 {

@@ -73,6 +73,7 @@ void App_MB1::App_MB1_Start()
 {
 	// init atModbus Service in the fist running time
 	atService_Modbus.Run_Service();
+	atService_Modbus.mb1Init();
 }
 /**
  * Restart function of SNM  app
@@ -89,7 +90,7 @@ void App_MB1::App_MB1_Execute()
 	if (atApp_MB1.User_Mode == APP_USER_MODE_DEBUG)
 	{
 		Serial.print(atObject_Param.sensorNameMB1 + ": ");
-		Serial.println(atObject_Data.rs485Ch1 + " mm");
+		Serial.println(atObject_Data.rs485Ch1);
 	}
 }
 void App_MB1::App_MB1_Suspend() {}
