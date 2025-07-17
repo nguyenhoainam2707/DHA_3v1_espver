@@ -55,7 +55,7 @@ public:
     float dutyCycleCh4PWM = 50.00; // Default duty cycle for PWM channels (50%)
 
     //Parameters for LCD
-    bool enLCD = false; // Enable LCD
+    bool enLCD = true; // Enable LCD
     bool enLCDBacklight = true; // Enable LCD backlight
     uint32_t refreshRateLCD = 500; // Default refresh rate for LCD in milliseconds
 

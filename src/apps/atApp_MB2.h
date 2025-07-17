@@ -5,6 +5,7 @@
 #include "../services/atService_Modbus.h"
 #include "../src/obj/atObj_Param.h"
 #include "../src/obj/atObj_Data.h"
+#include "../src/apps/atApp_Database.h"
 /* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
@@ -92,7 +93,7 @@ void  App_MB2::App_MB2_Execute()
 	{
 		Serial.print(atObject_Param.sensorNameMB2 + ": ");
 		Serial.println(atObject_Data.rs485Ch2);
-	}  
+	}
 }
 void  App_MB2::App_MB2_Suspend(){}
 void  App_MB2::App_MB2_Resume(){}	  
@@ -102,7 +103,7 @@ void atApp_MB2_Task_Func(void *parameter)
   while (1)
   {
     atApp_MB2.Run_Application(APP_RUN_MODE_AUTO);
-    vTaskDelay(1000/ portTICK_PERIOD_MS);
+    vTaskDelay(atObject_Param.refreshRateMB2 / portTICK_PERIOD_MS);
   }
 }
 #endif
