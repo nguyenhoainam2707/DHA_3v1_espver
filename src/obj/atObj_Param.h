@@ -23,20 +23,19 @@ public:
     static void Object_Param_End();
 
     // Enable AI channels
-    bool enCh1AI = true;
-    bool enCh2AI = true;
-    bool enCh3AI = true;
-    bool enCh4AI = true;
-    bool enRawAI = true;
-    bool enCurAI = true;
-    uint32_t refreshRateAI = 1000; // Default refresh rate for AI channels in milliseconds
+    bool enCh1AI = false;
+    bool enCh2AI = false;
+    bool enCh3AI = false;
+    bool enCh4AI = false;
+    bool enRawAI = false;
+    bool enCurAI = false;
+    uint32_t refreshRateAI = 100; // Default refresh rate for AI channels in milliseconds
     // Enable DI channels
-    bool enCh1DI = false;
-    bool enCh2DI = false;
-    bool enCh3DI = false;
-    bool enCh4DI = false;
+    bool enCh1DI = true;
+    bool enCh2DI = true;
+    bool enCh3DI = true;
+    bool enCh4DI = true;
     uint32_t refreshRateDI = 1000; // Default refresh rate for DI channels in milliseconds
-    uint32_t delayDI = 1000; // Default delay for DI channels in milliseconds
     //Enable PWM channels
     bool enCh1PWM = false;
     bool enCh2PWM = false;
@@ -56,7 +55,7 @@ public:
     float dutyCycleCh4PWM = 50.00; // Default duty cycle for PWM channels (50%)
 
     //Parameters for LCD
-    bool enLCD = false; // Enable LCD
+    bool enLCD = true; // Enable LCD
     bool enLCDBacklight = true; // Enable LCD backlight
     uint32_t refreshRateLCD = 500; // Default refresh rate for LCD in milliseconds
 

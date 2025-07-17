@@ -3,6 +3,7 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "../src/obj/atObj_Param.h"
+#include "../src/apps/atApp_Database.h"
 /* _____DEFINITIONS__________________________________________________________ */
 #define P1_PWM 39
 #define P2_PWM 2
@@ -27,22 +28,22 @@ public:
 	~App_PWM();
 
 	static void setPWMChannel(uint8_t channel);
-	static bool prevEnCh1PWM;
-	static bool prevEnCh2PWM;
-	static bool prevEnCh3PWM;
-	static bool prevEnCh4PWM;
-	static uint32_t prevFreqCh1PWM;
-	static uint32_t prevFreqCh2PWM;
-	static uint32_t prevFreqCh3PWM;
-	static uint32_t prevFreqCh4PWM;
-	static uint8_t prevResolutionCh1PWM;
-	static uint8_t prevResolutionCh2PWM;
-	static uint8_t prevResolutionCh3PWM;
-	static uint8_t prevResolutionCh4PWM;
-	static float prevDutyCycleCh1PWM;
-	static float prevDutyCycleCh2PWM;
-	static float prevDutyCycleCh3PWM;
-	static float prevDutyCycleCh4PWM;
+	// static bool prevEnCh1PWM;
+	// static bool prevEnCh2PWM;
+	// static bool prevEnCh3PWM;
+	// static bool prevEnCh4PWM;
+	// static uint32_t prevFreqCh1PWM;
+	// static uint32_t prevFreqCh2PWM;
+	// static uint32_t prevFreqCh3PWM;
+	// static uint32_t prevFreqCh4PWM;
+	// static uint8_t prevResolutionCh1PWM;
+	// static uint8_t prevResolutionCh2PWM;
+	// static uint8_t prevResolutionCh3PWM;
+	// static uint8_t prevResolutionCh4PWM;
+	// static float prevDutyCycleCh1PWM;
+	// static float prevDutyCycleCh2PWM;
+	// static float prevDutyCycleCh3PWM;
+	// static float prevDutyCycleCh4PWM;
 
 protected:
 private:
@@ -55,22 +56,22 @@ private:
 	static void App_PWM_End();
 } atApp_PWM;
 
-bool App_PWM::prevEnCh1PWM = atObject_Param.enCh1PWM;
-bool App_PWM::prevEnCh2PWM = atObject_Param.enCh2PWM;
-bool App_PWM::prevEnCh3PWM = atObject_Param.enCh3PWM;
-bool App_PWM::prevEnCh4PWM = atObject_Param.enCh4PWM;
-uint32_t App_PWM::prevFreqCh1PWM = atObject_Param.freqCh1PWM;
-uint32_t App_PWM::prevFreqCh2PWM = atObject_Param.freqCh2PWM;
-uint32_t App_PWM::prevFreqCh3PWM = atObject_Param.freqCh3PWM;
-uint32_t App_PWM::prevFreqCh4PWM = atObject_Param.freqCh4PWM;
-uint8_t App_PWM::prevResolutionCh1PWM = atObject_Param.resolutionCh1PWM;
-uint8_t App_PWM::prevResolutionCh2PWM = atObject_Param.resolutionCh2PWM;
-uint8_t App_PWM::prevResolutionCh3PWM = atObject_Param.resolutionCh3PWM;
-uint8_t App_PWM::prevResolutionCh4PWM = atObject_Param.resolutionCh4PWM;
-float App_PWM::prevDutyCycleCh1PWM = atObject_Param.dutyCycleCh1PWM;
-float App_PWM::prevDutyCycleCh2PWM = atObject_Param.dutyCycleCh2PWM;
-float App_PWM::prevDutyCycleCh3PWM = atObject_Param.dutyCycleCh3PWM;
-float App_PWM::prevDutyCycleCh4PWM = atObject_Param.dutyCycleCh4PWM;
+// bool App_PWM::prevEnCh1PWM = atObject_Param.enCh1PWM;
+// bool App_PWM::prevEnCh2PWM = atObject_Param.enCh2PWM;
+// bool App_PWM::prevEnCh3PWM = atObject_Param.enCh3PWM;
+// bool App_PWM::prevEnCh4PWM = atObject_Param.enCh4PWM;
+// uint32_t App_PWM::prevFreqCh1PWM = atObject_Param.freqCh1PWM;
+// uint32_t App_PWM::prevFreqCh2PWM = atObject_Param.freqCh2PWM;
+// uint32_t App_PWM::prevFreqCh3PWM = atObject_Param.freqCh3PWM;
+// uint32_t App_PWM::prevFreqCh4PWM = atObject_Param.freqCh4PWM;
+// uint8_t App_PWM::prevResolutionCh1PWM = atObject_Param.resolutionCh1PWM;
+// uint8_t App_PWM::prevResolutionCh2PWM = atObject_Param.resolutionCh2PWM;
+// uint8_t App_PWM::prevResolutionCh3PWM = atObject_Param.resolutionCh3PWM;
+// uint8_t App_PWM::prevResolutionCh4PWM = atObject_Param.resolutionCh4PWM;
+// float App_PWM::prevDutyCycleCh1PWM = atObject_Param.dutyCycleCh1PWM;
+// float App_PWM::prevDutyCycleCh2PWM = atObject_Param.dutyCycleCh2PWM;
+// float App_PWM::prevDutyCycleCh3PWM = atObject_Param.dutyCycleCh3PWM;
+// float App_PWM::prevDutyCycleCh4PWM = atObject_Param.dutyCycleCh4PWM;
 /**
  * This function will be automaticaly called when a object is created by this class
  */

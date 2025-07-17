@@ -5,6 +5,7 @@
 #include "../services/atService_ADS1115.h"
 #include "../src/obj/atObj_Param.h"
 #include "../src/obj/atObj_Data.h"
+// #include "../src/apps/atApp_Database.h"
 /* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
@@ -220,7 +221,7 @@ void App_AI::App_AI_Execute()
 			}
 		}
 	}
-	if(atObject_Param.enCh1AI || atObject_Param.enCh2AI || atObject_Param.enCh3AI || atObject_Param.enCh4AI)
+	if (atObject_Param.enCh1AI || atObject_Param.enCh2AI || atObject_Param.enCh3AI || atObject_Param.enCh4AI)
 	{
 		if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
 		{
@@ -236,7 +237,7 @@ void atApp_AI_Task_Func(void *parameter)
 	while (1)
 	{
 		atApp_AI.Run_Application(APP_RUN_MODE_AUTO);
-		vTaskDelay(300 / portTICK_PERIOD_MS);
+		vTaskDelay(atObject_Param.refreshRateAI / portTICK_PERIOD_MS);
 	}
 }
 #endif

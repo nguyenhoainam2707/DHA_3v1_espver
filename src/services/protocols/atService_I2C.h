@@ -2,6 +2,7 @@
 #define _Service_atService_I2C_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "../src/services/Service.h"
+#include <Wire.h>
 /* _____DEFINETIONS__________________________________________________________ */
 #define SDA_PIN 48
 #define SCL_PIN 45

@@ -43,8 +43,9 @@ public:
     bool ch3DI = false;
     bool ch4DI = false;
 
-    uint16_t waterLevel = 0; // Water level data
-
+    //Data of RS485 channels
+    uint16_t rs485Ch1 = 0;
+    uint16_t rs485Ch2 = 0;
 
     Object_Data(/* args */);
     ~Object_Data();
