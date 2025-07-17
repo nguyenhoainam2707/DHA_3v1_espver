@@ -2,6 +2,7 @@
 #define _Service_atService_EG800K_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "Service.h"
+#include "../services/atService_PCF8574.h"
 /* _____DEFINETIONS__________________________________________________________ */
 #define EG800K_RX 44 // UART0
 #define EG800K_TX 43 // UART0
@@ -14,18 +15,6 @@
 #define MQTT_PORT "1883"
 #define MQTT_CLIENT_ID "esp32s3-client"
 
-// enum SER_EG800K_State : uint8_t
-// {
-//     EG800K_STATE_INIT,
-//     EG800K_STATE_NORMAL,
-//     EG800K_STATE_ERROR
-// };
-// enum SER_MQTT_State : uint8_t
-// {
-//     MQTT_STATE_NORMAL,
-//     MQTT_STATE_PUBLISHING,
-//     MQTT_STATE_SUBSCRIBING,
-// };
 HardwareSerial EGSerial(0); // UART0 cho EG800K
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
@@ -50,6 +39,8 @@ public:
     static void sendFTPfile(const String &filename, const String &content);
     static void configGPS();
     static void getPosition();
+
+    bool is4GConnected = true; // Biến để kiểm tra kết nối 4G
 
 protected:
 private:
@@ -104,7 +95,9 @@ void Service_EG800K::sendAT(const String &cmd, uint16_t timeout)
     }
     if (response.indexOf("ERROR") != -1)
     {
-        // atService_EG800K.EG800K_State = EG800K_STATE_ERROR;
+        if(cmd.indexOf("AT+QIACT=1") != -1) {
+            atService_EG800K.is4GConnected = false; // Nếu có lỗi khi kích hoạt PDP, đánh dấu là không kết nối
+        }
     }
 }
 /**
@@ -128,6 +121,9 @@ void Service_EG800K::configEG800K()
     sendAT("AT+QICSGP=1,1,\"internet\",\"\",\"\",1", DEFAULT_TIMEOUT); // APN, sửa "internet" nếu cần
     sendAT("AT+QIACT=1", DEFAULT_TIMEOUT);                             // Kích hoạt PDP
     sendAT("AT+QIACT?", DEFAULT_TIMEOUT);                              // Kiểm tra IP
+    if(atService_EG800K.is4GConnected) {
+        atService_PCF8574.pcfDigitalWrite(P3, HIGH); // Bật đèn LED P2 nếu kết nối 4G thành công
+    }
 }
 void Service_EG800K::configMQTT()
 {
@@ -147,10 +143,13 @@ void Service_EG800K::configMQTT()
  */
 void Service_EG800K::publishMQTTData(String payload, String pubTopic)
 {
+    atService_PCF8574.pcfDigitalWrite(P2, HIGH); // Bật đèn LED P2 trước khi gửi dữ liệu
     String cmd = "AT+QMTPUB=0,0,0,0,\"" + String(pubTopic) + "\"";
     sendAT(cmd, DEFAULT_TIMEOUT);
+    // Serial.println("[MQTT] Publishing...");
     EGSerial.print(payload);
     EGSerial.write(0x1A); // Gửi ký tự kết thúc (Ctrl+Z)
+    atService_PCF8574.pcfDigitalWrite(P2, LOW); // Tắt đèn LED P2 sau khi gửi dữ liệu
     vTaskDelay(1000 / portTICK_PERIOD_MS);
 }
 void Service_EG800K::subscribeMQTTTopic(const String &subTopic)

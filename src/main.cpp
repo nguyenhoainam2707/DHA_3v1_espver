@@ -57,7 +57,7 @@ void setup()
   {
     xTaskCreatePinnedToCore(atApp_MQTT_PUB_Task_Func, "atApp_MQTT_PUB_Application", 2048, NULL, 1, &Task_atApp_MQTT_PUB, 1);
   }
-  xTaskCreatePinnedToCore(atApp_AP_Task_Func, "atApp_AP_Application", 50000, NULL, 1, &Task_atApp_AP, 0);
+  // xTaskCreatePinnedToCore(atApp_AP_Task_Func, "atApp_AP_Application", 50000, NULL, 1, &Task_atApp_AP, 0);
   if (atObject_Param.enCh1AI || atObject_Param.enCh2AI || atObject_Param.enCh3AI || atObject_Param.enCh4AI)
   {
     xTaskCreatePinnedToCore(atApp_AI_Task_Func, "atApp_AI_Application", 2048, NULL, 1, &Task_atApp_AI, 1);

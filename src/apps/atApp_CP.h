@@ -114,7 +114,29 @@ void App_CP::App_CP_Execute()
 			{
 				Serial.println("Button pressed for 5 seconds, switching mode...");
 			}
-
+			if (atObject_Param.enMQTTPUB)
+			{
+				vTaskDelete(Task_atApp_MQTT_PUB);
+			}
+			// xTaskCreatePinnedToCore(atApp_AP_Task_Func, "atApp_AP_Application", 50000, NULL, 1, &Task_atApp_AP, 0);
+			if (atObject_Param.enCh1AI || atObject_Param.enCh2AI || atObject_Param.enCh3AI || atObject_Param.enCh4AI)
+			{
+				vTaskDelete(Task_atApp_AI);
+			}
+			if (atObject_Param.enCh1DI || atObject_Param.enCh2DI || atObject_Param.enCh3DI || atObject_Param.enCh4DI)
+			{
+				vTaskDelete(Task_atApp_DI);
+			}
+			vTaskDelete(Task_atApp_LCD);
+			if (atObject_Param.enMB1)
+			{
+				vTaskDelete(Task_atApp_MB1);
+			}
+			if (atObject_Param.enMB2)
+			{
+				vTaskDelete(Task_atApp_MB2);
+			}
+			xTaskCreatePinnedToCore(atApp_AP_Task_Func, "atApp_AP_Application", 80000, NULL, 1, &Task_atApp_AP, 0);
 			// Chờ đến khi nút được thả ra
 			while (digitalRead(BUTTON_PIN) == LOW)
 			{
@@ -124,7 +146,7 @@ void App_CP::App_CP_Execute()
 		}
 	}
 	else
-{
+	{
 		atApp_CP.buttonPressed = false;
 	}
 	vTaskDelay(atApp_CP.debounceDelay); // Chờ debounce
