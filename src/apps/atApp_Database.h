@@ -108,11 +108,11 @@ void App_Database::App_Database_Start()
 	// init atXYZ Service in the fist running time
 	// atService_Flash.Run_Service();
 	// atService_uSD.Run_Service();
-	atApp_Database.loadConfig();
-	if (atApp_Database.User_Mode == APP_USER_MODE_DEBUG)
-	{
-		Serial.println("App_Database started");
-	}
+	// atApp_Database.loadConfig();
+	// if (atApp_Database.User_Mode == APP_USER_MODE_DEBUG)
+	// {
+	// 	Serial.println("App_Database started");
+	// }
 }
 /**
  * Restart function of SNM  app

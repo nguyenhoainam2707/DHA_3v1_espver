@@ -73,7 +73,7 @@ void App_MB1::App_MB1_Pend()
 void App_MB1::App_MB1_Start()
 {
 	// init atModbus Service in the fist running time
-	atService_Modbus.Run_Service();
+	// atService_Modbus.Run_Service();
 	atService_Modbus.mb1Init();
 }
 /**

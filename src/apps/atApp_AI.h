@@ -5,7 +5,7 @@
 #include "../services/atService_ADS1115.h"
 #include "../src/obj/atObj_Param.h"
 #include "../src/obj/atObj_Data.h"
-#include "../src/apps/atApp_Database.h"
+// #include "../src/apps/atApp_Database.h"
 /* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
@@ -169,7 +169,6 @@ void App_AI::App_AI_Execute()
 		if (atObject_Param.enRawAI)
 		{
 			atObject_Data.ch2RawData = atService_ADS1115.ADS1115_readAI(1);
-			atApp_Database.writeData("AI", "CH2: " + String(atObject_Data.ch2RawData));
 			if (atApp_AI.User_Mode == APP_USER_MODE_DEBUG)
 			{
 				Serial.println("CH2: AI raw data: " + String(atObject_Data.ch2RawData));

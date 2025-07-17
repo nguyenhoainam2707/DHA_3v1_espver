@@ -16,7 +16,7 @@
 #include "../src/apps/atApp_MB2.h"
 #include "../src/apps/atApp_PWM.h"
 /* _____DEFINITIONS__________________________________________________________ */
-
+#define BUTTON_PIN 41
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 TaskHandle_t Task_atApp_CP;
 void atApp_CP_Task_Func(void *parameter);
@@ -33,6 +33,11 @@ class App_CP : public Application
 public:
 	App_CP();
 	~App_CP();
+
+	const TickType_t debounceDelay = pdMS_TO_TICKS(50);	  // Thời gian debounce
+	const TickType_t holdThreshold = pdMS_TO_TICKS(5000); // 5 giây
+	TickType_t pressStartTime = 0;
+	bool buttonPressed = false;
 
 protected:
 private:
@@ -81,42 +86,7 @@ void App_CP::App_CP_Pend()
  */
 void App_CP::App_CP_Start()
 {
-// 	if (atObject_Param.enMQTTPUB)
-// 	{
-// 		xTaskCreatePinnedToCore(atApp_MQTT_PUB_Task_Func, "atApp_MQTT_PUB_Application", 2048, NULL, 1, &Task_atApp_MQTT_PUB, 1);
-// 	}
-// 	if (atObject_Param.enMQTTSUB)
-// 	{
-// 		xTaskCreatePinnedToCore(atApp_MQTT_SUB_Task_Func, "atApp_MQTT_SUB_Application", 2048, NULL, 1, &Task_atApp_MQTT_SUB, 1);
-// 	}
-// 	// xTaskCreatePinnedToCore(atApp_AP_Task_Func,       "atApp_AP_Application",       10000,  NULL, 1, &Task_atApp_AP,        0);
-// 	if (atObject_Param.enCh1AI || atObject_Param.enCh2AI || atObject_Param.enCh3AI || atObject_Param.enCh4AI)
-// 	{
-// 		xTaskCreatePinnedToCore(atApp_AI_Task_Func, "atApp_AI_Application", 2048, NULL, 1, &Task_atApp_AI, 1);
-// 	}
-// 	if (atObject_Param.enCh1DI || atObject_Param.enCh2DI || atObject_Param.enCh3DI || atObject_Param.enCh4DI)
-// 	{
-// 		xTaskCreatePinnedToCore(atApp_DI_Task_Func, "atApp_DI_Application", 2048, NULL, 1, &Task_atApp_DI, 1);
-// 	}
-// 	if (atObject_Param.enLCD)
-// 	{
-// 		xTaskCreatePinnedToCore(atApp_LCD_Task_Func, "atApp_LCD_Application", 2048, NULL, 1, &Task_atApp_LCD, 1);
-// 	}
-// 	if (atObject_Param.enMB1)
-// 	{
-// 		xTaskCreatePinnedToCore(atApp_MB1_Task_Func, "atApp_MB1_Application", 2048, NULL, 1, &Task_atApp_MB1, 1);
-// 	}
-// 	if (atObject_Param.enMB2)
-// 	{
-// 	xTaskCreatePinnedToCore(atApp_MB2_Task_Func, "atApp_MB2_Application", 2048, NULL, 1, &Task_atApp_MB2, 1);
-// 	}
-// 	if (atObject_Param.enCh1PWM || atObject_Param.enCh2PWM || atObject_Param.enCh3PWM || atObject_Param.enCh4PWM)
-// 	{
-// 		xTaskCreatePinnedToCore(atApp_PWM_Task_Func, "atApp_PWM_Application", 2048, NULL, 1, &Task_atApp_PWM, 1);
-// 	}
-// 	xTaskCreatePinnedToCore(atApp_LED_Task_Func, "atApp_LED_Application", 2048, NULL, 1, &Task_atApp_LED, 1);
-	// xTaskCreatePinnedToCore(atApp_GPS_Task_Func,      "atApp_GPS_Application",      2048,   NULL, 1, &Task_atApp_GPS,       1);
-	// xTaskCreatePinnedToCore(atApp_FTP_Task_Func,      "atApp_FTP_Application",      2048,   NULL, 1, &Task_atApp_FTP,       1);
+	pinMode(BUTTON_PIN, INPUT_PULLUP);
 }
 /**
  * Restart function of SNM  app
@@ -129,11 +99,35 @@ void App_CP::App_CP_Restart()
  */
 void App_CP::App_CP_Execute()
 {
-	// atService_XYZ.Run_Service();
-	// if(atApp_CP.User_Mode == APP_USER_MODE_DEBUG)
-	// {
+	if (digitalRead(BUTTON_PIN) == LOW)
+	{ // Nút được nhấn (kích xuống GND)
+		if (!atApp_CP.buttonPressed)
+		{
+			// Ghi nhận thời điểm bắt đầu nhấn
+			atApp_CP.pressStartTime = xTaskGetTickCount();
+			atApp_CP.buttonPressed = true;
+		}
+		// Kiểm tra thời gian giữ nút
+		if ((xTaskGetTickCount() - atApp_CP.pressStartTime) >= atApp_CP.holdThreshold)
+		{
+			if (atApp_CP.User_Mode == APP_USER_MODE_DEBUG)
+			{
+				Serial.println("Button pressed for 5 seconds, switching mode...");
+			}
 
-	// }
+			// Chờ đến khi nút được thả ra
+			while (digitalRead(BUTTON_PIN) == LOW)
+			{
+				vTaskDelay(pdMS_TO_TICKS(100));
+			}
+			atApp_CP.buttonPressed = false;
+		}
+	}
+	else
+{
+		atApp_CP.buttonPressed = false;
+	}
+	vTaskDelay(atApp_CP.debounceDelay); // Chờ debounce
 }
 void App_CP::App_CP_Suspend() {}
 void App_CP::App_CP_Resume() {}
@@ -143,7 +137,7 @@ void atApp_CP_Task_Func(void *parameter)
 	while (1)
 	{
 		atApp_CP.Run_Application(APP_RUN_MODE_AUTO);
-		vTaskDelay(1000 / portTICK_PERIOD_MS);
+		// vTaskDelay(1000 / portTICK_PERIOD_MS);
 	}
 }
 #endif

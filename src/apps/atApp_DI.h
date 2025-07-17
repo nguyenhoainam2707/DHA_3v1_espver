@@ -91,38 +91,38 @@ void App_DI::App_DI_Execute()
 	// Read DI channels
 	if (atObject_Param.enCh1DI)
 	{
-		bool state = atService_PCF8574.pcfDigitalRead(1);
+		atObject_Data.ch1DI = atService_PCF8574.pcfDigitalRead(1);
 		if (atApp_DI.User_Mode == APP_USER_MODE_DEBUG)
 		{
 			Serial.print("DI Channel 1 state: ");
-			Serial.println(state);
+			Serial.println(atObject_Data.ch1DI);
 		}
 	}
 	if (atObject_Param.enCh2DI)
 	{
-		bool state = atService_PCF8574.pcfDigitalRead(2);
+		atObject_Data.ch2DI = atService_PCF8574.pcfDigitalRead(2);
 		if (atApp_DI.User_Mode == APP_USER_MODE_DEBUG)
 		{
 			Serial.print("DI Channel 2 state: ");
-			Serial.println(state);
+			Serial.println(atObject_Data.ch2DI);
 		}
 	}
 	if (atObject_Param.enCh3DI)
 	{
-		bool state = atService_PCF8574.pcfDigitalRead(3);
+		atObject_Data.ch3DI = atService_PCF8574.pcfDigitalRead(3);
 		if (atApp_DI.User_Mode == APP_USER_MODE_DEBUG)
 		{
 			Serial.print("DI Channel 3 state: ");
-			Serial.println(state);
+			Serial.println(atObject_Data.ch3DI);
 		}
 	}
 	if (atObject_Param.enCh4DI)
 	{
-		bool state = atService_PCF8574.pcfDigitalRead(4);
+		atObject_Data.ch4DI = atService_PCF8574.pcfDigitalRead(4);
 		if (atApp_DI.User_Mode == APP_USER_MODE_DEBUG)
 		{
 			Serial.print("DI Channel 4 state: ");
-			Serial.println(state);
+			Serial.println(atObject_Data.ch4DI);
 		}
 	}
 	if (atApp_DI.User_Mode == APP_USER_MODE_DEBUG)

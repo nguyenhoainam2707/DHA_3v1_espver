@@ -5,9 +5,9 @@
 #include "../services/atService_EG800K.h"
 #include "../src/obj/atObj_Param.h"
 #include "../src/obj/atObj_Data.h"
-#include "../src/apps/atApp_Database.h"
+// #include "../src/apps/atApp_Database.h"
 /* _____DEFINITIONS__________________________________________________________ */
-#define MQTT_PUB_TOPIC "esp32s3/testTopicDHA" // MQTT topic for publishing water level data
+// #define MQTT_PUB_TOPIC "esp32s3/testTopicDHA" // MQTT topic for publishing water level data
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 TaskHandle_t Task_atApp_MQTT_PUB;
 void atApp_MQTT_PUB_Task_Func(void *parameter);
@@ -95,10 +95,6 @@ void App_MQTT_PUB::App_MQTT_PUB_Execute()
 		{
 			payload += "\"AI1 Raw Data\":" + String(atObject_Data.ch1RawData) + ",";
 		}
-		// if (atObject_Param.enCurAI)
-		// {
-		// 	payload += "\"AI1 Current\":" + String(atObject_Data.ch1Current, 4) + ",";
-		// }
 	}
 	if (atObject_Param.enCh2AI)
 	{
@@ -106,10 +102,6 @@ void App_MQTT_PUB::App_MQTT_PUB_Execute()
 		{
 			payload += "\"AI2 Raw Data\":" + String(atObject_Data.ch2RawData) + ",";
 		}
-		// if (atObject_Param.enCurAI)
-		// {
-		// 	payload += "\"AI2 Current\":" + String(atObject_Data.ch2Current, 4) + ",";
-		// }
 	}
 	if (atObject_Param.enCh3AI)
 	{
@@ -117,10 +109,6 @@ void App_MQTT_PUB::App_MQTT_PUB_Execute()
 		{
 			payload += "\"AI3 Raw Data\":" + String(atObject_Data.ch3RawData) + ",";
 		}
-		// if (atObject_Param.enCurAI)
-		// {
-		// 	payload += "\"AI3 Current\":" + String(atObject_Data.ch3Current, 4) + ",";
-		// }
 	}
 	if (atObject_Param.enCh4AI)
 	{
@@ -128,43 +116,38 @@ void App_MQTT_PUB::App_MQTT_PUB_Execute()
 		{
 			payload += "\"AI4 Raw Data\":" + String(atObject_Data.ch4RawData) + ",";
 		}
-		// if (atObject_Param.enCurAI)
-		// {
-		// 	payload += "\"AI4 Current\":" + String(atObject_Data.ch4Current, 4) + ",";
-		// }
 	}
-	// if (atObject_Param.enMB1)
-	// {
-	// 	payload += "\"" + atObject_Param.sensorNameMB1 + "\":" + String(atObject_Data.rs485Ch1) + ",";
-	// }
-	// if (atObject_Param.enMB2)
-	// {
-	// 	payload += "\"" + atObject_Param.sensorNameMB2 + "\":" + String(atObject_Data.rs485Ch2) + ",";
-	// }
-	// if (atObject_Param.enCh1DI)
-	// {
-	// 	payload += "\"DI1:\":" + String(atObject_Data.ch1DI) + ",";
-	// }
-	// if (atObject_Param.enCh2DI)
-	// {
-	// 	payload += "\"DI2:\":" + String(atObject_Data.ch2DI) + ",";
-	// }
-	// if (atObject_Param.enCh3DI)
-	// {
-	// 	payload += "\"DI3:\":" + String(atObject_Data.ch3DI) + ",";
-	// }
-	// if (atObject_Param.enCh4DI)
-	// {
-	// 	payload += "\"DI4:\":" + String(atObject_Data.ch4DI) + ",";
-	// }
+	if (atObject_Param.enMB1)
+	{
+		payload += "\"" + atObject_Param.sensorNameMB1 + "\":" + String(atObject_Data.rs485Ch1) + ",";
+	}
+	if (atObject_Param.enMB2)
+	{
+		payload += "\"" + atObject_Param.sensorNameMB2 + "\":" + String(atObject_Data.rs485Ch2) + ",";
+	}
+	if (atObject_Param.enCh1DI)
+	{
+		payload += "\"DI1:\":" + String(atObject_Data.ch1DI) + ",";
+	}
+	if (atObject_Param.enCh2DI)
+	{
+		payload += "\"DI2:\":" + String(atObject_Data.ch2DI) + ",";
+	}
+	if (atObject_Param.enCh3DI)
+	{
+		payload += "\"DI3:\":" + String(atObject_Data.ch3DI) + ",";
+	}
+	if (atObject_Param.enCh4DI)
+	{
+		payload += "\"DI4:\":" + String(atObject_Data.ch4DI) + ",";
+	}
 	// Remove the last comma if it exists
 	if (payload.endsWith(","))
 	{
 		payload.remove(payload.length() - 1);
 		payload += "}";
 	}
-	// payload += "\"" + atObject_Param.sensorName + "\":" + String(atObject_Data.waterLevel) + "}";
-	Service_EG800K::publishMQTTData(payload, MQTT_PUB_TOPIC);
+	Service_EG800K::publishMQTTData(payload, atObject_Param.mqttPubTopic);
 }
 void App_MQTT_PUB::App_MQTT_PUB_Suspend() {}
 void App_MQTT_PUB::App_MQTT_PUB_Resume() {}
@@ -174,7 +157,7 @@ void atApp_MQTT_PUB_Task_Func(void *parameter)
 	while (1)
 	{
 		atApp_MQTT_PUB.Run_Application(APP_RUN_MODE_AUTO);
-		vTaskDelay(1000 / portTICK_PERIOD_MS);
+		vTaskDelay(atObject_Param.refreshRateMQTTPUB / portTICK_PERIOD_MS);
 	}
 }
 #endif

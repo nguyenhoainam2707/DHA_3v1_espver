@@ -86,205 +86,115 @@ void App_LCD::App_LCD_Restart()
  */
 void App_LCD::App_LCD_Execute()
 {
-	bool isRow0 = true; // Flag to track if we are on row 0
 	if (atObject_Param.enCh1AI)
 	{
 		atService_I2C.checkIn();
-		if (isRow0) // Only print on row 0 if the flag is true
-		{
-			lcd.setCursor(0, 0);
-		}
-		else
-		{
-			lcd.setCursor(0, 1);
-		}
-		lcd.setCursor(0, 0);
-		lcd.print("AI1: ");
-		lcd.print(atObject_Data.ch1Current, 2);
-		atService_I2C.checkOut();
-		isRow0 = !isRow0; // Toggle the row flag
-		vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay to allow LCD to update
+		lcd.clear(); // Clear the LCD before printing new values
+		lcd.setCursor(6, 0);
+		lcd.print("AI1:");
+		lcd.setCursor(5, 1);
+		lcd.print(atObject_Data.ch1Current, 4);
+		atService_I2C.checkOut();												// Toggle the row flag
+		vTaskDelay(atObject_Param.refreshRateLCD / portTICK_PERIOD_MS); // Delay to allow LCD to update
 	}
 	if (atObject_Param.enCh2AI)
 	{
 		atService_I2C.checkIn();
-		if (isRow0) // Only print on row 0 if the flag is true
-		{
-			lcd.setCursor(0, 0);
-		}
-		else
-		{
-			lcd.setCursor(0, 1);
-		}
-		lcd.print("AI2: ");
-		lcd.print(atObject_Data.ch2Current, 2);
+		lcd.clear(); // Clear the LCD before printing new values
+		lcd.setCursor(6, 0);
+		lcd.print("AI2:");
+		lcd.setCursor(5, 1);
+		lcd.print(atObject_Data.ch2Current, 4);
 		atService_I2C.checkOut();
-		vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay to allow LCD to update
-		isRow0 = !isRow0; // Toggle the row flag
+		vTaskDelay(atObject_Param.refreshRateLCD / portTICK_PERIOD_MS); // Delay to allow LCD to update
 	}
 	if (atObject_Param.enCh3AI)
 	{
 		atService_I2C.checkIn();
-		if (isRow0) // Only print on row 0 if the flag is true
-		{
-			lcd.setCursor(0, 0);
-		}
-		else
-		{
-			lcd.setCursor(0, 1);
-		}
-		lcd.print("AI3: ");
-		lcd.print(atObject_Data.ch3Current, 2);
+		lcd.clear(); // Clear the LCD before printing new values
+		lcd.setCursor(6, 0);
+		lcd.print("AI3:");
+		lcd.setCursor(5, 1);
+		lcd.print(atObject_Data.ch3Current, 4);
 		atService_I2C.checkOut();
-		vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay to allow LCD to update
-		isRow0 = !isRow0; // Toggle the row flag
+		vTaskDelay(atObject_Param.refreshRateLCD / portTICK_PERIOD_MS); // Delay to allow LCD to update
 	}
 	if (atObject_Param.enCh4AI)
 	{
 		atService_I2C.checkIn();
-		if (isRow0) // Only print on row 0 if the flag is true
-		{
-			lcd.setCursor(0, 0);
-		}
-		else
-		{
-			lcd.setCursor(0, 1);
-		}
-		lcd.print("AI4: ");
-		lcd.print(atObject_Data.ch4Current, 2);
+		lcd.clear(); // Clear the LCD before printing new values
+		lcd.setCursor(6, 0);
+		lcd.print("AI4:");
+		lcd.setCursor(5, 1);
+		lcd.print(atObject_Data.ch4Current, 4);
 		atService_I2C.checkOut();
-		vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay to allow LCD to update
-		isRow0 = !isRow0; // Toggle the row flag
+		vTaskDelay(atObject_Param.refreshRateLCD / portTICK_PERIOD_MS); // Delay to allow LCD to update
 	}
 	if (atObject_Param.enMB1)
 	{
 		atService_I2C.checkIn();
-		if (isRow0) // Only print on row 0 if the flag is true
-		{
-			lcd.setCursor(0, 0);
-		}
-		else
-		{
-			lcd.setCursor(0, 1);
-		}
-		lcd.print("MB1: ");
+		lcd.clear(); // Clear the LCD before printing new values
+		lcd.setCursor(6, 0);
+		lcd.print("MB1:");
+		lcd.setCursor(6, 1);
 		lcd.print(atObject_Data.rs485Ch1);
 		atService_I2C.checkOut();
-		vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay to allow LCD to update
-		isRow0 = !isRow0; // Toggle the row flag
+		vTaskDelay(atObject_Param.refreshRateLCD / portTICK_PERIOD_MS); // Delay to allow LCD to update
 	}
 	if (atObject_Param.enMB2)
-	{
+	{											// Toggle the row flag
 		atService_I2C.checkIn();
-		if (isRow0) // Only print on row 0 if the flag is true
-		{
-			lcd.setCursor(0, 0);
-		}
-		else
-		{
-			lcd.setCursor(0, 1);
-		}
-		lcd.print("MB2: ");
+		lcd.clear(); // Clear the LCD before printing new values
+		lcd.setCursor(6, 0);
+		lcd.print("MB2:");
+		lcd.setCursor(6, 1);
 		lcd.print(atObject_Data.rs485Ch2);
 		atService_I2C.checkOut();
-		vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay to allow LCD to update
-		isRow0 = !isRow0; // Toggle the row flag
+		vTaskDelay(atObject_Param.refreshRateLCD / portTICK_PERIOD_MS); // Delay to allow LCD to update
 	}
 	if (atObject_Param.enCh1DI)
 	{
 		atService_I2C.checkIn();
-		if (isRow0) // Only print on row 0 if the flag is true
-		{
-			lcd.setCursor(0, 0);
-		}
-		else
-		{
-			lcd.setCursor(0, 1);
-		}
-		lcd.print("DI1: ");
-		if (atObject_Data.ch1DI)
-		{
-			lcd.print("ON");
-		}
-		else
-		{
-			lcd.print("OFF");
-		}
+		lcd.clear(); // Clear the LCD before printing new values
+		lcd.setCursor(6, 0);
+		lcd.print("DI1:");
+		lcd.setCursor(6, 1);
+		lcd.print(atObject_Data.ch1DI);
 		atService_I2C.checkOut();
-		vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay to allow LCD to update
-		isRow0 = !isRow0; // Toggle the row flag
+		vTaskDelay(atObject_Param.refreshRateLCD / portTICK_PERIOD_MS); // Delay to allow LCD to update
 	}
 	if (atObject_Param.enCh2DI)
-	{
+	{											// Toggle the row flag
 		atService_I2C.checkIn();
-		if (isRow0) // Only print on row 0 if the flag is true
-		{
-			lcd.setCursor(0, 0);
-		}
-		else
-		{
-			lcd.setCursor(0, 1);
-		}
-		lcd.print("DI2: ");
-		if (atObject_Data.ch2DI)
-		{
-			lcd.print("ON");
-		}
-		else
-		{
-			lcd.print("OFF");
-		}
+		lcd.clear(); // Clear the LCD before printing new values
+		lcd.setCursor(6, 0);
+		lcd.print("DI2:");
+		lcd.setCursor(6, 1);
+		lcd.print(atObject_Data.ch2DI);
 		atService_I2C.checkOut();
-		vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay to allow LCD to update
-		isRow0 = !isRow0; // Toggle the row flag
+		vTaskDelay(atObject_Param.refreshRateLCD / portTICK_PERIOD_MS); // Delay to allow LCD to update
 	}
 	if (atObject_Param.enCh3DI)
-	{
+	{												// Toggle the row flag
 		atService_I2C.checkIn();
-		if (isRow0) // Only print on row 0 if the flag is true
-		{
-			lcd.setCursor(0, 0);
-		}
-		else
-		{
-			lcd.setCursor(0, 1);
-		}
-		lcd.print("DI3: ");
-		if (atObject_Data.ch3DI)
-		{
-			lcd.print("ON");
-		}
-		else
-		{
-			lcd.print("OFF");
-		}
+		lcd.clear(); // Clear the LCD before printing new values
+		lcd.setCursor(6, 0);
+		lcd.print("DI3:");
+		lcd.setCursor(6, 1);
+		lcd.print(atObject_Data.ch3DI);
 		atService_I2C.checkOut();
-		vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay to allow LCD to update
-		isRow0 = !isRow0; // Toggle the row flag
+		vTaskDelay(atObject_Param.refreshRateLCD / portTICK_PERIOD_MS); // Delay to allow LCD to update
 	}
 	if (atObject_Param.enCh4DI)
-	{
+	{												// Toggle the row flag
 		atService_I2C.checkIn();
-		if (isRow0) // Only print on row 0 if the flag is true
-		{
-			lcd.setCursor(0, 0);
-		}
-		else
-		{
-			lcd.setCursor(0, 1);
-		}
-		lcd.print("DI4: ");
-		if (atObject_Data.ch4DI)
-		{
-			lcd.print("ON");
-		}
-		else
-		{
-			lcd.print("OFF");
-		}
+		lcd.clear(); // Clear the LCD before printing new values
+		lcd.setCursor(6, 0);
+		lcd.print("DI4:");
+		lcd.setCursor(6, 1);
+		lcd.print(atObject_Data.ch4DI);
 		atService_I2C.checkOut();
-		vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay to allow LCD to update
-		isRow0 = !isRow0; // Toggle the row flag
+		vTaskDelay(atObject_Param.refreshRateLCD / portTICK_PERIOD_MS); // Delay to allow LCD to update
 	}
 }
 
@@ -296,7 +206,7 @@ void atApp_LCD_Task_Func(void *parameter)
 	while (1)
 	{
 		atApp_LCD.Run_Application(APP_RUN_MODE_AUTO);
-		vTaskDelay(1000 / portTICK_PERIOD_MS);
+		vTaskDelay(10 / portTICK_PERIOD_MS);
 	}
 }
 #endif

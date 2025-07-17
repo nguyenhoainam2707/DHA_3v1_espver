@@ -54,7 +54,6 @@ Service_LCD1602::~Service_LCD1602()
 void Service_LCD1602::Service_LCD1602_Start()
 {
     atService_I2C.Run_Service();
-    vTaskDelay(2000 / portTICK_PERIOD_MS); // Đợi một chút để đảm bảo I2C đã sẵn sàng
     atService_I2C.checkIn();
     // Khởi động giao tiếp I2C
     Wire.begin(SDA_PIN, SCL_PIN);
@@ -69,11 +68,11 @@ void Service_LCD1602::Service_LCD1602_Start()
     }
     // Hiển thị thông báo khởi động
     lcd.setCursor(0, 0);
-    lcd.print("    DHA-3");
+    lcd.print("     DHA-3");
     lcd.setCursor(0, 1);
-    lcd.print("  Khoi dong...");
+    lcd.print("   Khoi dong...");
     atService_I2C.checkOut();
-    vTaskDelay(2000 / portTICK_PERIOD_MS);
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
     atService_I2C.checkIn();
     lcd.clear();
     atService_I2C.checkOut();
