@@ -43,8 +43,8 @@ void setup()
   // atService_Modbus.Debug();
   // atService_LCD1602.Debug();
 
-	// atService_Flash.Run_Service();
-	// atService_uSD.Run_Service();
+  // atService_Flash.Run_Service();
+  // atService_uSD.Run_Service();
   // --------------------------------------------Tasks table--------------------------------------------//
   // ---------------------------------------------------------------------------------------------------//
   // || Creation  ||  Task function ||  PC name ||  Heap size ||  Parameter ||  Priority  ||  Task handle ||  CoreID  ||
@@ -53,15 +53,15 @@ void setup()
   // xTaskCreatePinnedToCore(atApp_CP_Task_Func,       "atApp_CP_Application",       8192,   NULL, 1, &Task_atApp_CP,        1);
   // if (atObject_Param.enMQTTPUB)
   // {
-    xTaskCreatePinnedToCore(atApp_MQTT_PUB_Task_Func, "atApp_MQTT_PUB_Application", 2048,   NULL, 1, &Task_atApp_MQTT_PUB,  1);
+  xTaskCreatePinnedToCore(atApp_MQTT_PUB_Task_Func, "atApp_MQTT_PUB_Application", 2048, NULL, 1, &Task_atApp_MQTT_PUB, 1);
   // }
   // xTaskCreatePinnedToCore(atApp_MQTT_SUB_Task_Func, "atApp_MQTT_SUB_Application", 2048,   NULL, 1, &Task_atApp_MQTT_SUB,  1);
   // xTaskCreatePinnedToCore(atApp_AP_Task_Func,       "atApp_AP_Application",       10000,  NULL, 1, &Task_atApp_AP,        0);
-  xTaskCreatePinnedToCore(atApp_AI_Task_Func,       "atApp_AI_Application",       2048,   NULL, 1, &Task_atApp_AI,        1);
+  xTaskCreatePinnedToCore(atApp_AI_Task_Func, "atApp_AI_Application", 2048, NULL, 1, &Task_atApp_AI, 1);
   // xTaskCreatePinnedToCore(atApp_DI_Task_Func,       "atApp_DI_Application",       2048,   NULL, 1, &Task_atApp_DI,        1);
   // if (atObject_Param.enLCD)
   // {
-  //   xTaskCreatePinnedToCore(atApp_LCD_Task_Func,      "atApp_LCD_Application",      2048,   NULL, 1, &Task_atApp_LCD,       1);
+  // xTaskCreatePinnedToCore(atApp_LCD_Task_Func, "atApp_LCD_Application", 10000, NULL, 1, &Task_atApp_LCD, 1);
   // }
   // xTaskCreatePinnedToCore(atApp_LED_Task_Func,      "atApp_LED_Application",      2048,   NULL, 1, &Task_atApp_LED,       1);
   // if (atObject_Param.enMB1)
